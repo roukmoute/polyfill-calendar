@@ -1,0 +1,7 @@
+suites:
+    app_suite:
+        namespace: Roukmoute\Polyfill\Calendar
+        psr4_prefix: Roukmoute\Polyfill\Calendar
+        spec_prefix: 'Spec'
+        src_path: 'src/'
+        spec_path: 'test'

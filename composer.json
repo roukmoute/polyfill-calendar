@@ -1,0 +1,51 @@
+{
+  "name": "roukmoute/polyfill-calendar",
+  "description": "PHP Polyfill for the Calendar extension",
+  "type": "library",
+  "keywords": ["polyfill", "compatibility", "portable", "calendar"],
+  "require": {
+    "php": "^7.1"
+  },
+  "require-dev": {
+    "friendsofphp/php-cs-fixer": "^2.16",
+    "pedrotroller/php-cs-custom-fixer": "^2.19",
+    "phpspec/phpspec": "^5.1 || ^6.1",
+    "phpstan/phpstan": "^0.12.8",
+    "phpstan/phpstan-strict-rules": "^0.12.2",
+    "pyrech/composer-changelogs": "^1.7",
+    "roave/security-advisories": "dev-master",
+    "vimeo/psalm": "^3.8"
+  },
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Mathias STRASSER",
+      "email": "contact@roukmoute.fr"
+    }
+  ],
+  "minimum-stability": "stable",
+  "config": {
+    "preferred-install": {
+      "*": "dist"
+    },
+    "sort-packages": true
+  },
+  "autoload": {
+    "psr-4": {
+      "Roukmoute\\Polyfill\\Calendar\\": "src"
+    },
+    "files": [
+      "runtime/bootstrap.php"
+    ]
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Spec\\": "test/Spec"
+    }
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "1.0-dev"
+    }
+  }
+}
