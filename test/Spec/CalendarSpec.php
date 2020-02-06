@@ -15,17 +15,17 @@ class CalendarSpec extends ObjectBehavior
         $this->shouldHaveType(Calendar::class);
     }
 
-    public function it_calculates_easter_for_year_2000()
+    public function it_calculates_easter_date_for_year_2000()
     {
         $this->easter_date(2000)->shouldReturn(956448000);
     }
 
-    public function it_calculates_easter_for_year_2001()
+    public function it_calculates_easter_date_for_year_2001()
     {
         $this->easter_date(2001)->shouldReturn(987292800);
     }
 
-    public function it_calculates_easter_for_year_2002()
+    public function it_calculates_easter_date_for_year_2002()
     {
         $this->easter_date(2002)->shouldReturn(1017532800);
     }

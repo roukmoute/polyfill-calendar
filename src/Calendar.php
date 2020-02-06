@@ -11,11 +11,27 @@ class Calendar
 
     /**
      * Return the timestamp of midnight on Easter of a given year (defaults to current year)
-     *
+     */
+    public static function easter_date(int $year = null): int
+    {
+        $easter = self::calEaster($year);
+
+        if ($easter < 11) {
+            $month = self::MARCH;
+            $day = $easter + 21;
+        } else {
+            $month = self::APRIL;
+            $day = $easter - 10;
+        }
+
+        return mktime(0, 0, 0, $month, $day, $year);
+    }
+
+    /**
      * Based on code by Simon Kershaw <simon@oremus.org>
      * @see: http://easter.oremus.org/when/bradley.html
      */
-    public static function easter_date(int $year = null): int
+    private static function calEaster(int $year): int
     {
         if (!$year) {
             $year = (int) date('Y');
@@ -57,16 +73,6 @@ class Calendar
         }
 
         /* Easter as the number of days after 21st March */
-        $easter = $paschalFullMoon + $paschalFullMoonPrime + 1;
-
-        if ($easter < 11) {
-            $month = self::MARCH;
-            $day = $easter + 21;
-        } else {
-            $month = self::APRIL;
-            $day = $easter - 10;
-        }
-
-        return mktime(0, 0, 0, $month, $day, $year);
+        return $paschalFullMoon + $paschalFullMoonPrime + 1;
     }
 }
