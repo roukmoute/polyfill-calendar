@@ -39,4 +39,19 @@ class CalendarSpec extends ObjectBehavior
     {
         $this->shouldThrow(ValueError::class)->during('easter_date', [2038]);
     }
+
+    public function it_calculates_easter_days_for_year_1999()
+    {
+        $this->easter_days(1999)->shouldReturn(14);
+    }
+
+    public function it_calculates_easter_days_for_year_1492()
+    {
+        $this->easter_days(1492)->shouldReturn(32);
+    }
+
+    public function it_calculates_easter_days_for_year_1913()
+    {
+        $this->easter_days(1913)->shouldReturn(2);
+    }
 }

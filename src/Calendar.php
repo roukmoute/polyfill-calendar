@@ -14,7 +14,11 @@ class Calendar
      */
     public static function easter_date(int $year = null): int
     {
-        $easter = self::calEaster($year);
+        if (!$year) {
+            $year = (int) date('Y');
+        }
+
+        $easter = self::calEaster($year, true);
 
         if ($easter < 11) {
             $month = self::MARCH;
@@ -28,43 +32,63 @@ class Calendar
     }
 
     /**
+     * Return the number of days after March 21 that Easter falls on for a given year (defaults to current year)
+     */
+    public static function easter_days(int $year = null): int
+    {
+        return self::calEaster($year, false);
+    }
+
+    /**
      * Based on code by Simon Kershaw <simon@oremus.org>
      * @see: http://easter.oremus.org/when/bradley.html
      */
-    private static function calEaster(int $year): int
+    private static function calEaster(int $year = null, bool $isEasterDate): int
     {
         if (!$year) {
             $year = (int) date('Y');
         }
 
         /* out of range for timestamps */
-        if ($year < 1970 || $year > 2037) {
+        if ($isEasterDate && ($year < 1970 || $year > 2037)) {
             throw new ValueError('This function is only valid for years between 1970 and 2037 inclusive');
         }
 
         /* the Golden number */
         $golden = ($year % 19) + 1;
 
-        /* the solar and lunar corrections */
-        $solar = ($year - 1600) / 100 - ($year - 1600) / 400;
-        $lunar = ((($year - 1400) / 100) * 8) / 25;
+        if ($year <= 1752) { /* Julian Calendar (for years before 1753) */
+            $dominicalNumber = ($year + ($year / 4) + 5) % 7;			/* the "Dominical number" - finding a Sunday */
+            if ($dominicalNumber < 0) {
+                $dominicalNumber += 7;
+            }
 
-        /* uncorrected date of the Paschal full moon */
-        $paschalFullMoon = (3 - (11 * $golden) + $solar - $lunar) % 30;
-        if ($paschalFullMoon < 0) {
-            $paschalFullMoon += 30;
+            $paschalFullMoon = (3 - (11 * $golden) - 7) % 30;			/* uncorrected date of the Paschal full moon */
+            if ($paschalFullMoon < 0) {
+                $paschalFullMoon += 30;
+            }
+        } else { /* Gregorian Calendar */
+            /* the "Dominical number" */
+            $dominicalNumber = ($year + ($year / 4) - ($year / 100) + ($year / 400)) % 7;
+            if ($dominicalNumber < 0) {
+                $dominicalNumber += 7;
+            }
+
+            /* the solar and lunar corrections */
+            $solar = ($year - 1600) / 100 - ($year - 1600) / 400;
+            $lunar = ((($year - 1400) / 100) * 8) / 25;
+
+            /* uncorrected date of the Paschal full moon */
+            $paschalFullMoon = (3 - (11 * $golden) + $solar - $lunar) % 30;
+            if ($paschalFullMoon < 0) {
+                $paschalFullMoon += 30;
+            }
         }
 
         /* corrected date of the Paschal full moon */
         if (($paschalFullMoon == 29) || ($paschalFullMoon == 28 && $golden > 11)) {
             /* days after 21st March */
             --$paschalFullMoon;
-        }
-
-        /* the "Dominical number" */
-        $dominicalNumber = ($year + ($year / 4) - ($year / 100) + ($year / 400)) % 7;
-        if ($dominicalNumber < 0) {
-            $dominicalNumber += 7;
         }
 
         $paschalFullMoonPrime = (4 - $paschalFullMoon - $dominicalNumber) % 7;
