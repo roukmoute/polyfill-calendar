@@ -35,7 +35,7 @@ class CalendarSpec extends ObjectBehavior
         $this->shouldThrow(ValueError::class)->during('easter_date', [1969]);
     }
 
-    public function it_throws_an_exception_when_year_is_after_()
+    public function it_throws_an_exception_when_year_is_after_2037()
     {
         $this->shouldThrow(ValueError::class)->during('easter_date', [2038]);
     }
