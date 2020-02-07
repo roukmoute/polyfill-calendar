@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace Roukmoute\Polyfill\Calendar;
 
+/**
+ * Based on code by Simon Kershaw <simon@oremus.org>
+ * @see: http://easter.oremus.org/when/bradley.html
+ */
 class Calendar
 {
     private const MARCH = 3;
@@ -39,36 +43,31 @@ class Calendar
         return self::calEaster($year, false);
     }
 
-    /**
-     * Based on code by Simon Kershaw <simon@oremus.org>
-     * @see: http://easter.oremus.org/when/bradley.html
-     */
     private static function calEaster(int $year = null, bool $isEasterDate): int
     {
         if (!$year) {
             $year = (int) date('Y');
         }
 
-        /* out of range for timestamps */
-        if ($isEasterDate && ($year < 1970 || $year > 2037)) {
+        if (self::isOutOfRange($year, $isEasterDate)) {
             throw new ValueError('This function is only valid for years between 1970 and 2037 inclusive');
         }
 
         /* the Golden number */
         $golden = ($year % 19) + 1;
 
-        if ($year <= 1752) { /* Julian Calendar (for years before 1753) */
-            $dominicalNumber = ($year + ($year / 4) + 5) % 7;			/* the "Dominical number" - finding a Sunday */
+        if (self::isJulianCalendar($year)) {
+            /* the "Dominical number" - finding a Sunday */
+            $dominicalNumber = ($year + ($year / 4) + 5) % 7;
             if ($dominicalNumber < 0) {
                 $dominicalNumber += 7;
             }
 
-            $paschalFullMoon = (3 - (11 * $golden) - 7) % 30;			/* uncorrected date of the Paschal full moon */
+            $paschalFullMoon = (3 - (11 * $golden) - 7) % 30;  /* uncorrected date of the Paschal full moon */
             if ($paschalFullMoon < 0) {
                 $paschalFullMoon += 30;
             }
         } else { /* Gregorian Calendar */
-            /* the "Dominical number" */
             $dominicalNumber = ($year + ($year / 4) - ($year / 100) + ($year / 400)) % 7;
             if ($dominicalNumber < 0) {
                 $dominicalNumber += 7;
@@ -98,5 +97,21 @@ class Calendar
 
         /* Easter as the number of days after 21st March */
         return $paschalFullMoon + $paschalFullMoonPrime + 1;
+    }
+
+    /**
+     * Out of range for timestamps
+     */
+    private static function isOutOfRange(int $year, bool $isEasterDate): bool
+    {
+        return $isEasterDate && ($year < 1970 || $year > 2037);
+    }
+
+    /**
+     * Julian Calendar (for years before 1753)
+     */
+    private static function isJulianCalendar(int $year): bool
+    {
+        return $year <= 1752;
     }
 }
