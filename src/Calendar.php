@@ -58,7 +58,7 @@ class Calendar
 
         if (self::isJulianCalendar($year)) {
             /* the "Dominical number" - finding a Sunday */
-            $dominicalNumber = ($year + ($year / 4) + 5) % 7;
+            $dominicalNumber = ($year + ((int) ($year / 4)) + 5) % 7;
             if ($dominicalNumber < 0) {
                 $dominicalNumber += 7;
             }
@@ -68,14 +68,14 @@ class Calendar
                 $paschalFullMoon += 30;
             }
         } else { /* Gregorian Calendar */
-            $dominicalNumber = ($year + ($year / 4) - ($year / 100) + ($year / 400)) % 7;
+            $dominicalNumber = ($year + ((int) ($year / 4)) - ((int) ($year / 100)) + ((int) ($year / 400))) % 7;
             if ($dominicalNumber < 0) {
                 $dominicalNumber += 7;
             }
 
             /* the solar and lunar corrections */
-            $solar = ($year - 1600) / 100 - ($year - 1600) / 400;
-            $lunar = ((($year - 1400) / 100) * 8) / 25;
+            $solar = (int) (($year - 1600) / 100 - ($year - 1600) / 400);
+            $lunar = (int) (((($year - 1400) / 100) * 8) / 25);
 
             /* uncorrected date of the Paschal full moon */
             $paschalFullMoon = (3 - (11 * $golden) + $solar - $lunar) % 30;
