@@ -28,7 +28,10 @@
     "preferred-install": {
       "*": "dist"
     },
-    "sort-packages": true
+    "sort-packages": true,
+    "allow-plugins": {
+      "pyrech/composer-changelogs": true
+    }
   },
   "autoload": {
     "psr-4": {
