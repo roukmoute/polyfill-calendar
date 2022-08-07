@@ -32,3 +32,10 @@ if (!function_exists('jewishtojd')) {
         return Julian::jewishtojd($month, $day, $year);
     }
 }
+
+if (!function_exists('juliantojd')) {
+    function juliantojd(int $month, int $day, int $year): int
+    {
+        return Julian::juliantojd($month, $day, $year);
+    }
+}
