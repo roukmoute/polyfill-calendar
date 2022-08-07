@@ -5,14 +5,14 @@ declare(strict_types=1);
 namespace Spec\Roukmoute\Polyfill\Calendar;
 
 use PhpSpec\ObjectBehavior;
-use Roukmoute\Polyfill\Calendar\Calendar;
+use Roukmoute\Polyfill\Calendar\Easter;
 use Roukmoute\Polyfill\Calendar\ValueError;
 
-class CalendarSpec extends ObjectBehavior
+class EasterSpec extends ObjectBehavior
 {
     public function it_is_initializable()
     {
-        $this->shouldHaveType(Calendar::class);
+        $this->shouldHaveType(Easter::class);
     }
 
     public function it_calculates_easter_date_for_year_2000()

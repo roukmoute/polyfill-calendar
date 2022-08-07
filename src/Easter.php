@@ -8,7 +8,7 @@ namespace Roukmoute\Polyfill\Calendar;
  * Based on code by Simon Kershaw <simon@oremus.org>
  * @see: http://easter.oremus.org/when/bradley.html
  */
-class Calendar
+final class Easter
 {
     private const MARCH = 3;
     private const APRIL = 4;

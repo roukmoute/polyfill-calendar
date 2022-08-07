@@ -6,6 +6,6 @@ namespace Roukmoute\Polyfill\Calendar;
 
 use Error;
 
-class ValueError extends Error
+final class ValueError extends Error
 {
 }

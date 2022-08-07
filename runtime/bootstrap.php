@@ -1,17 +1,27 @@
 <?php
 
-use Roukmoute\Polyfill\Calendar\Calendar;
+declare(strict_types=1);
+
+use Roukmoute\Polyfill\Calendar\Easter;
+use Roukmoute\Polyfill\Calendar\Julian;
 
 if (!function_exists('easter_date')) {
-    function easter_date($year = null)
+    function easter_date(int $year = null): int
     {
-        return Calendar::easter_date($year);
+        return Easter::easter_date($year);
     }
 }
 
 if (!function_exists('easter_days')) {
-    function easter_days($year = null)
+    function easter_days(int $year = null): int
     {
-        return Calendar::easter_days($year);
+        return Easter::easter_days($year);
+    }
+}
+
+if (!function_exists('jdtogregorian')) {
+    function jdtogregorian(int $julian): string
+    {
+        return Julian::jdtogregorian($julian);
     }
 }
