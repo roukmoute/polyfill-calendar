@@ -6,6 +6,10 @@ namespace Roukmoute\Polyfill\Calendar;
 
 final class Julian
 {
+    /**
+     * @author treebe
+     * @see https://www.php.net/manual/en/function.jdtogregorian.php#32561
+     */
     public static function jdtogregorian(int $julian): string
     {
         $julian = $julian - 1721119;
