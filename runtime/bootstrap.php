@@ -20,8 +20,15 @@ if (!function_exists('easter_days')) {
 }
 
 if (!function_exists('jdtogregorian')) {
-    function jdtogregorian(int $julian): string
+    function jdtogregorian(int $julian_day): string
     {
-        return Julian::jdtogregorian($julian);
+        return Julian::jdtogregorian($julian_day);
+    }
+}
+
+if (!function_exists('jewishtojd')) {
+    function jewishtojd(int $month, int $day, int $year): int
+    {
+        return Julian::jewishtojd($month, $day, $year);
     }
 }

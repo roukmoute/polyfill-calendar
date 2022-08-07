@@ -19,4 +19,9 @@ class JulianSpec extends ObjectBehavior
         $this->jdtogregorian(2458489)->shouldReturn('1/5/2019');
         $this->jdtogregorian(2458465)->shouldReturn('12/12/2018');
     }
+
+    public function it_calculates_julian_day_count_from_jewish_date()
+    {
+        $this->jewishtojd(4, 4, 5779)->shouldReturn(2458465);
+    }
 }
