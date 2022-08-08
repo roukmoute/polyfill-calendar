@@ -32,8 +32,13 @@ final class Jewish
     ];
 
     private static $monthsPerYear = [
-        12, 12, 13, 12, 12, 13, 12, 13, 12, 12,
-        13, 12, 12, 13, 12, 12, 13, 12, 13,
+        2 => 13,
+        5 => 13,
+        7 => 13,
+        10 => 13,
+        13 => 13,
+        16 => 13,
+        18 => 13,
     ];
 
     /**
@@ -61,7 +66,7 @@ final class Jewish
                 self::findStartOfYear($year, $metonicCycle, $metonicYear, $moladDay, $moladHalakim, $tishri1);
 
                 /* Find the end of the year. */
-                $moladHalakim += self::HALAKIM_PER_LUNAR_CYCLE * self::$monthsPerYear[$metonicYear];
+                $moladHalakim += self::HALAKIM_PER_LUNAR_CYCLE * (self::$monthsPerYear[(int) $metonicYear] ?? 12);
                 $moladDay += (int) ($moladHalakim / self::HALAKIM_PER_DAY);
                 $moladHalakim = $moladHalakim % self::HALAKIM_PER_DAY;
                 $tishri1After = self::tishri1(($metonicYear + 1) % 19, $moladDay, $moladHalakim);
