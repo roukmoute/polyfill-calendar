@@ -74,8 +74,8 @@ final class Easter
             }
 
             /* the solar and lunar corrections */
-            $solar = (int) (($year - 1600) / 100 - ($year - 1600) / 400);
-            $lunar = (int) (((($year - 1400) / 100) * 8) / 25);
+            $solar = ((int) (($year - 1600) / 100)) - ((int) (($year - 1600) / 400));
+            $lunar = (int) ((((int) (($year - 1400) / 100)) * 8) / 25);
 
             /* uncorrected date of the Paschal full moon */
             $paschalFullMoon = (3 - (11 * $golden) + $solar - $lunar) % 30;
