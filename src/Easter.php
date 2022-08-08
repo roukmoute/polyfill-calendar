@@ -6,7 +6,7 @@ namespace Roukmoute\Polyfill\Calendar;
 
 /**
  * Based on code by Simon Kershaw <simon@oremus.org>
- * @see: http://easter.oremus.org/when/bradley.html
+ * @see http://easter.oremus.org/when/bradley.html
  */
 final class Easter
 {
