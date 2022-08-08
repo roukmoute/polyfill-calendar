@@ -54,4 +54,9 @@ class EasterSpec extends ObjectBehavior
     {
         $this->easter_days(1913)->shouldReturn(2);
     }
+
+    public function it_calculates_easter_days_for_year_2025()
+    {
+        $this->easter_days(2025)->shouldReturn(30);
+    }
 }
