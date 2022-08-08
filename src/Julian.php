@@ -77,17 +77,6 @@ final class Julian
      */
     public static function jewishtojd(int $month, int $day, int $year): int
     {
-        /*
-        zend_long sdn;
-        int metonicCycle;
-        int $metonicYear;
-        int tishri1;
-        int $tishri1After;
-        zend_long moladDay;
-        zend_long moladHalakim;
-        int yearLength;
-        int lengthOfAdarIAndII;
-        */
 
         if ($year <= 0 || $day <= 0 || $day > 30) {
             return 0;
