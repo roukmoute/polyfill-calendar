@@ -12,6 +12,12 @@
     </projectFiles>
 
     <issueHandlers>
+        <InvalidArrayOffset>
+            <errorLevel type="suppress">
+                <file name="src/Calendar.php" />
+            </errorLevel>
+        </InvalidArrayOffset>
+
         <LessSpecificReturnType errorLevel="info" />
 
         <!-- level 3 issues - slightly lazy code writing, but provably low false-negatives -->
