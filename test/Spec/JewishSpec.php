@@ -20,5 +20,6 @@ class JewishSpec extends ObjectBehavior
         $this->jewishtojd(0, 0, 0)->shouldReturn(0);
         $this->jewishtojd(1, 1, 1)->shouldReturn(347998);
         $this->jewishtojd(4, 4, 5779)->shouldReturn(2458465);
+        $this->jewishtojd(4, 4, 5780)->shouldReturn(2458850);
     }
 }

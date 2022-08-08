@@ -66,7 +66,7 @@ final class Jewish
                 self::findStartOfYear($year, $metonicCycle, $metonicYear, $moladDay, $moladHalakim, $tishri1);
 
                 /* Find the end of the year. */
-                $moladHalakim += self::HALAKIM_PER_LUNAR_CYCLE * (self::$monthsPerYear[(int) $metonicYear] ?? 12);
+                $moladHalakim += self::HALAKIM_PER_LUNAR_CYCLE * self::getMonthsInYear($metonicYear);
                 $moladDay += (int) ($moladHalakim / self::HALAKIM_PER_DAY);
                 $moladHalakim = $moladHalakim % self::HALAKIM_PER_DAY;
                 $tishri1After = self::tishri1(($metonicYear + 1) % 19, $moladDay, $moladHalakim);
@@ -83,7 +83,7 @@ final class Jewish
 
                 self::findStartOfYear($year + 1, $metonicCycle, $metonicYear, $moladDay, $moladHalakim, $tishri1After);
 
-            $lengthOfAdarIAndII = (self::$monthsPerYear[($year - 1) % 19] == 12) ? 29 : 59;
+                $lengthOfAdarIAndII = (self::getMonthsInYear(($year - 1) % 19) == 12) ? 29 : 59;
 
                 if ($month === 4) {
                     $sdn = $tishri1After + $day - $lengthOfAdarIAndII - 237;
@@ -126,6 +126,11 @@ final class Jewish
         }
 
         return $sdn + self::JEWISH_SDN_OFFSET;
+    }
+
+    private static function getMonthsInYear($metonicYear): int
+    {
+        return self::$monthsPerYear[(int) $metonicYear] ?? 12;
     }
 
     private static function findStartOfYear(
