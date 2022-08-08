@@ -30,14 +30,6 @@ class JulianSpec extends ObjectBehavior
         $this->jdtogregorian(9536838867)->shouldReturn('0/0/0');
     }
 
-    public function it_calculates_julian_day_count_from_jewish_date()
-    {
-        $this->jewishtojd(-1, -1, -1)->shouldReturn(0);
-        $this->jewishtojd(0, 0, 0)->shouldReturn(0);
-        $this->jewishtojd(1, 1, 1)->shouldReturn(347998);
-        $this->jewishtojd(4, 4, 5779)->shouldReturn(2458465);
-    }
-
     public function it_calculates_julian_day_count_from_julian_calendar_date()
     {
         $this->juliantojd(0, 0, 0)->shouldReturn(0);

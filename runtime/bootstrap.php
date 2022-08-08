@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Roukmoute\Polyfill\Calendar\Easter;
+use Roukmoute\Polyfill\Calendar\Jewish;
 use Roukmoute\Polyfill\Calendar\Julian;
 
 if (!function_exists('easter_date')) {
@@ -29,7 +30,7 @@ if (!function_exists('jdtogregorian')) {
 if (!function_exists('jewishtojd')) {
     function jewishtojd(int $month, int $day, int $year): int
     {
-        return Julian::jewishtojd($month, $day, $year);
+        return Jewish::jewishtojd($month, $day, $year);
     }
 }
 
