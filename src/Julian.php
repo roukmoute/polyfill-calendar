@@ -6,9 +6,9 @@ namespace Roukmoute\Polyfill\Calendar;
 
 final class Julian
 {
-    const JULIAN_SDN_OFFSET = 32083;
-    const DAYS_PER_5_MONTHS = 153;
-    const DAYS_PER_4_YEARS = 1461;
+    public const JULIAN_SDN_OFFSET = 32083;
+    public const DAYS_PER_5_MONTHS = 153;
+    public const DAYS_PER_4_YEARS = 1461;
 
     /**
      * @author treebe
@@ -40,14 +40,14 @@ final class Julian
             $month = $month + 3;
         } else {
             $month = $month - 9;
-            $year++;
+            ++$year;
         }
 
         if ($year <= 0) {
-            $year--;
+            --$year;
         }
 
-        return "$month/$day/$year";
+        return "${month}/${day}/${year}";
     }
 
     /**
@@ -77,12 +77,12 @@ final class Julian
             $rMonth = $month - 3;
         } else {
             $rMonth = $month + 9;
-            $rYear--;
+            --$rYear;
         }
 
-        return ((int) (($rYear * self::DAYS_PER_4_YEARS) / 4)
+        return (int) (($rYear * self::DAYS_PER_4_YEARS) / 4)
             + (int) (($rMonth * self::DAYS_PER_5_MONTHS + 2) / 5)
             + $day
-            - self::JULIAN_SDN_OFFSET);
+            - self::JULIAN_SDN_OFFSET;
     }
 }

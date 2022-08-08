@@ -6,25 +6,25 @@ namespace Roukmoute\Polyfill\Calendar;
 
 final class Jewish
 {
-    const HALAKIM_PER_HOUR = 1080;
-    const HALAKIM_PER_DAY = 25920;
-    const HALAKIM_PER_LUNAR_CYCLE = (29 * self::HALAKIM_PER_DAY) + 13753;
-    const HALAKIM_PER_METONIC_CYCLE = self::HALAKIM_PER_LUNAR_CYCLE * (12 * 19 + 7);
+    public const HALAKIM_PER_HOUR = 1080;
+    public const HALAKIM_PER_DAY = 25920;
+    public const HALAKIM_PER_LUNAR_CYCLE = (29 * self::HALAKIM_PER_DAY) + 13753;
+    public const HALAKIM_PER_METONIC_CYCLE = self::HALAKIM_PER_LUNAR_CYCLE * (12 * 19 + 7);
 
-    const JEWISH_SDN_OFFSET = 347997;
-    const NEW_MOON_OF_CREATION = 31524;
+    public const JEWISH_SDN_OFFSET = 347997;
+    public const NEW_MOON_OF_CREATION = 31524;
 
-    const SUNDAY = 0;
-    const MONDAY = 1;
-    const TUESDAY = 2;
-    const WEDNESDAY = 3;
-    const THURSDAY = 4;
-    const FRIDAY = 5;
-    const SATURDAY = 6;
+    public const SUNDAY = 0;
+    public const MONDAY = 1;
+    public const TUESDAY = 2;
+    public const WEDNESDAY = 3;
+    public const THURSDAY = 4;
+    public const FRIDAY = 5;
+    public const SATURDAY = 6;
 
-    const NOON = 18 * self::HALAKIM_PER_HOUR;
-    const AM3_11_20 = (9 * self::HALAKIM_PER_HOUR) + 204;
-    const AM9_32_43 = (15 * self::HALAKIM_PER_HOUR) + 589;
+    public const NOON = 18 * self::HALAKIM_PER_HOUR;
+    public const AM3_11_20 = (9 * self::HALAKIM_PER_HOUR) + 204;
+    public const AM9_32_43 = (15 * self::HALAKIM_PER_HOUR) + 589;
 
     private static $yearOffset = [
         0, 12, 24, 37, 49, 61, 74, 86, 99, 111, 123,
@@ -42,7 +42,6 @@ final class Jewish
      */
     public static function jewishtojd(int $month, int $day, int $year): int
     {
-
         if ($year <= 0 || $day <= 0 || $day > 30) {
             return 0;
         }
@@ -59,7 +58,7 @@ final class Jewish
                 /* It is Kislev - must find the year length. */
 
                 /* Find the start of the year. */
-                self::findStartOfYear($year, $metonicCycle, $metonicYear,$moladDay, $moladHalakim, $tishri1);
+                self::findStartOfYear($year, $metonicCycle, $metonicYear, $moladDay, $moladHalakim, $tishri1);
 
                 /* Find the end of the year. */
                 $moladHalakim += self::HALAKIM_PER_LUNAR_CYCLE * self::$monthsPerYear[$metonicYear];
@@ -83,7 +82,7 @@ final class Jewish
 
                 if ($month === 4) {
                     $sdn = $tishri1After + $day - $lengthOfAdarIAndII - 237;
-                } else if ($month === 5) {
+                } elseif ($month === 5) {
                     $sdn = $tishri1After + $day - $lengthOfAdarIAndII - 208;
                 } else {
                     $sdn = $tishri1After + $day - $lengthOfAdarIAndII - 178;
@@ -121,7 +120,7 @@ final class Jewish
                 }
         }
 
-        return ($sdn +self::JEWISH_SDN_OFFSET);
+        return $sdn + self::JEWISH_SDN_OFFSET;
     }
 
     private static function findStartOfYear(
@@ -159,8 +158,8 @@ final class Jewish
             ((!$leapYear) && $dow === self::TUESDAY && $moladHalakim >= self::AM3_11_20) ||
             ($lastWasLeapYear && $dow === self::MONDAY && $moladHalakim >= self::AM9_32_43)
         ) {
-            $tishri1++;
-            $dow++;
+            ++$tishri1;
+            ++$dow;
 
             if ($dow === 7) {
                 $dow = 0;
@@ -170,7 +169,7 @@ final class Jewish
         /* Apply rule 1 after the others because it can cause an additional
          * delay of one day. */
         if ($dow === self::WEDNESDAY || $dow === self::FRIDAY || $dow === self::SUNDAY) {
-            $tishri1++;
+            ++$tishri1;
         }
 
         return $tishri1;
