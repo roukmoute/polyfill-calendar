@@ -19,10 +19,15 @@ class JulianSpec extends ObjectBehavior
         $this->jdtogregorian(2458489)->shouldReturn('1/5/2019');
         $this->jdtogregorian(2458465)->shouldReturn('12/12/2018');
         $this->jdtogregorian(0)->shouldReturn('0/0/0');
+        $this->jdtogregorian(1721425)->shouldReturn('12/31/-1');
+        $this->jdtogregorian(1721426)->shouldReturn('1/1/1');
+        $this->jdtogregorian(1585000)->shouldReturn('6/25/-374');
+        $this->jdtogregorian(2000)->shouldReturn('5/16/-4708');
         $this->jdtogregorian(1)->shouldReturn('11/25/-4714');
         $this->jdtogregorian(2816423)->shouldReturn('1/1/2999');
         $this->jdtogregorian(536838866)->shouldReturn('10/17/1465102');
         $this->jdtogregorian(536838867)->shouldReturn('0/0/0');
+        $this->jdtogregorian(9536838867)->shouldReturn('0/0/0');
     }
 
     public function it_calculates_julian_day_count_from_jewish_date()

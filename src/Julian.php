@@ -46,7 +46,12 @@ final class Julian
      */
     public static function jdtogregorian(int $julian_day): string
     {
+        if ($julian_day <= 0 || $julian_day >= 536838867) {
+            return '0/0/0';
+        }
+
         $julian = $julian_day - 1721119;
+        $julian %= 535117748;
         $calc1 = 4 * $julian - 1;
         $year = floor($calc1 / 146097);
         $julian = floor($calc1 - 146097 * $year);
@@ -65,7 +70,11 @@ final class Julian
             $month = $month + 3;
         } else {
             $month = $month - 9;
-            $year = $year + 1;
+            $year++;
+        }
+
+        if ($year <= 0) {
+            $year--;
         }
 
         return "$month/$day/$year";
