@@ -35,6 +35,10 @@ class JulianSpec extends ObjectBehavior
 
     public function it_calculates_julian_day_count_from_julian_calendar_date()
     {
+        $this->juliantojd(0, 0, 0)->shouldReturn(0);
+        $this->juliantojd(1, 1, 1582)->shouldReturn(2298884);
+        $this->juliantojd(1, 1, 1970)->shouldReturn(2440601);
+        $this->juliantojd(1, 1, -4713)->shouldReturn(0);
         $this->juliantojd(12, 25, 2019)->shouldReturn(2458856);
     }
 }
