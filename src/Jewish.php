@@ -607,6 +607,11 @@ final class Jewish implements SDNConversions
     /**
      * Converts a number to Hebrew characters (ISO-8859-8 encoding).
      *
+     * @param int $n     The number to convert (must be in range 1-9999)
+     * @param int $flags Bitmask of formatting options (CAL_JEWISH_ADD_GERESHAYIM, etc.)
+     *
+     * @return string|null The Hebrew representation, or null if $n is outside 1-9999
+     *
      * @see https://github.com/php/php-src/blob/PHP-8.2/ext/calendar/calendar.c
      */
     private static function hebNumberToChars(int $n, int $flags): ?string
