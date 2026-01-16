@@ -153,6 +153,7 @@ final class Jewish implements SDNConversions
 
         $metonicCycle = $metonicYear = $moladDay = $moladHalakim = 0;
         self::findTishriMolad($inputDay, $metonicCycle, $metonicYear, $moladDay, $moladHalakim);
+        assert($metonicYear !== null && $moladDay !== null && $moladHalakim !== null);
         $tishri1 = self::tishri1($metonicYear, $moladDay, $moladHalakim);
 
         if ($inputDay >= $tishri1) {
@@ -232,6 +233,7 @@ final class Jewish implements SDNConversions
             /* We need the length of the year to figure out the month and day. */
             $tishri1After = $tishri1;
             self::findTishriMolad($moladDay - 365, $metonicCycle, $metonicYear, $moladDay, $moladHalakim);
+            assert($metonicYear !== null && $moladDay !== null && $moladHalakim !== null);
             $tishri1 = self::tishri1($metonicYear, $moladDay, $moladHalakim);
         }
 
@@ -276,6 +278,7 @@ final class Jewish implements SDNConversions
 
                 /* Find the start of the year. */
                 self::findStartOfYear($year, $metonicCycle, $metonicYear, $moladDay, $moladHalakim, $tishri1);
+                assert($metonicYear !== null && $moladDay !== null && $moladHalakim !== null);
 
                 /* Find the end of the year. */
                 $moladHalakim += self::HALAKIM_PER_LUNAR_CYCLE * self::getMonthsInYear($metonicYear);
@@ -366,7 +369,8 @@ final class Jewish implements SDNConversions
                 /* It is Kislev - must find the $year length. */
 
                 /* Find the start of the $year. */
-                self::findStartOfYear($year, $metonicCycle, $metonicYear, $moladDay, $moladHalakim, ${$tishri1});
+                self::findStartOfYear($year, $metonicCycle, $metonicYear, $moladDay, $moladHalakim, $tishri1);
+                assert($metonicYear !== null && $moladDay !== null && $moladHalakim !== null);
 
                 /* Find the end of the $year. */
                 $moladHalakim += self::HALAKIM_PER_LUNAR_CYCLE * self::getMonthsInYear($metonicYear);
