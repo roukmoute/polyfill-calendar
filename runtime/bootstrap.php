@@ -55,3 +55,10 @@ if (!function_exists('cal_to_jd')) {
         return Calendar::cal_to_jd($calendar, $month, $day, $year);
     }
 }
+
+if (!function_exists('cal_days_in_month')) {
+    function cal_days_in_month(int $calendar, int $month, int $year): int
+    {
+        return Calendar::cal_days_in_month($calendar, $month, $year);
+    }
+}

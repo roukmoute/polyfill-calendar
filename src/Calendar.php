@@ -29,7 +29,7 @@ final class Calendar
         self::CAL_FRENCH => French::class,
     ];
 
-    public function cal_to_jd(
+    public static function cal_to_jd(
         int $calendar,
         int $month,
         int $day,
@@ -43,5 +43,68 @@ final class Calendar
         $calendarType = self::CAL_CONVERSION_TABLE[$calendar];
 
         return $calendarType::toSDN($year, $month, $day);
+    }
+
+    /**
+     * Return the number of days in a month for a given year and calendar.
+     *
+     * @see https://www.php.net/manual/en/function.cal-days-in-month.php
+     */
+    public static function cal_days_in_month(int $calendar, int $month, int $year): int
+    {
+        if ($calendar < 0 || $calendar >= self::CAL_NUM_CALS) {
+            throw new ValueError('cal_days_in_month(): Argument #1 ($calendar) must be a valid calendar ID');
+        }
+
+        if ($year > 2147483645) {
+            throw new ValueError('cal_days_in_month(): Argument #3 ($year) must be less than 2147483646');
+        }
+
+        if ($month < 1 || $month > 2147483645) {
+            throw new ValueError('cal_days_in_month(): Argument #2 ($month) must be between 1 and 2147483646');
+        }
+
+        /** @var SDNConversions $calendarType */
+        $calendarType = self::CAL_CONVERSION_TABLE[$calendar];
+
+        /* Get SDN for first day of this month */
+        $sdnStart = $calendarType::toSDN($year, $month, 1);
+
+        /* Get SDN for first day of next month */
+        $nextMonth = $month + 1;
+        $nextYear = $year;
+
+        /* Handle month overflow - go to first month of next year */
+        $sdnNext = $calendarType::toSDN($nextYear, $nextMonth, 1);
+
+        if ($sdnNext <= 0) {
+            /* Next month is invalid, try first month of next year */
+            $nextMonth = 1;
+            $nextYear = $year + 1;
+
+            /* Handle year 0 which doesn't exist in Gregorian/Julian */
+            if ($nextYear === 0 && ($calendar === self::CAL_GREGORIAN || $calendar === self::CAL_JULIAN)) {
+                $nextYear = 1;
+            }
+
+            $sdnNext = $calendarType::toSDN($nextYear, $nextMonth, 1);
+        }
+
+        /* If we still can't compute (e.g., end of French calendar), find last valid day by loop */
+        if ($sdnNext <= 0) {
+            for ($day = 1; $day <= 32; ++$day) {
+                $sdnDay = $calendarType::toSDN($year, $month, $day);
+                if ($sdnDay <= 0) {
+                    return $day - 1;
+                }
+            }
+        }
+
+        /* If start is invalid, return 0 */
+        if ($sdnStart <= 0) {
+            return 0;
+        }
+
+        return $sdnNext - $sdnStart;
     }
 }

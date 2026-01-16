@@ -30,6 +30,15 @@ class French implements SDNConversions
             return 0;
         }
 
+        /* Month 13 (Sansculottides) has only 5 or 6 days */
+        if ($month === 13) {
+            /* Leap years: 3, 7, 11 have 6 days, others have 5 */
+            $maxDay = ($year === 3 || $year === 7 || $year === 11) ? 6 : 5;
+            if ($day > $maxDay) {
+                return 0;
+            }
+        }
+
         return (int) (($year * self::DAYS_PER_4_YEARS) / 4)
             + ($month - 1) * self::DAYS_PER_MONTH
             + $day
