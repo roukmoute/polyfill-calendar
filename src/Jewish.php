@@ -618,7 +618,7 @@ final class Jewish implements SDNConversions
             $buf .= self::$alefBet[(int) ($n / 1000)];
 
             if ($flags & self::CAL_JEWISH_ADD_ALAFIM_GERESH) {
-                $buf .= "'";
+                $buf .= '\'';
             }
             if ($flags & self::CAL_JEWISH_ADD_ALAFIM) {
                 $buf .= " \xE0\xEC\xF4\xE9\xED "; /* " alafim " */
@@ -665,7 +665,7 @@ final class Jewish implements SDNConversions
                 /* nothing after alafim */
             } elseif ($afterAlafim === 1) {
                 /* single character, add geresh */
-                $buf .= "'";
+                $buf .= '\'';
             } else {
                 /* insert gereshayim before last character */
                 $buf = mb_substr($buf, 0, $len - 1, '8bit') . '"' . mb_substr($buf, $len - 1, 1, '8bit');

@@ -85,14 +85,16 @@ class JewishSpec extends ObjectBehavior
     {
         /* With gereshayim flag */
         $this->jdtojewish(2460204, true, Jewish::CAL_JEWISH_ADD_GERESHAYIM)
-            ->shouldReturn("\xE0' \xFA\xF9\xF8\xE9 \xE4\xFA\xF9\xF4\"\xE3");
+            ->shouldReturn("\xE0' \xFA\xF9\xF8\xE9 \xE4\xFA\xF9\xF4\"\xE3")
+        ;
     }
 
     public function it_converts_julian_day_to_jewish_date_in_hebrew_with_alafim_geresh(): void
     {
         /* With alafim geresh flag */
         $this->jdtojewish(2460204, true, Jewish::CAL_JEWISH_ADD_ALAFIM_GERESH)
-            ->shouldReturn("\xE0 \xFA\xF9\xF8\xE9 \xE4'\xFA\xF9\xF4\xE3");
+            ->shouldReturn("\xE0 \xFA\xF9\xF8\xE9 \xE4'\xFA\xF9\xF4\xE3")
+        ;
     }
 
     public function it_converts_julian_day_to_jewish_date_in_hebrew_with_combined_flags(): void
@@ -100,6 +102,7 @@ class JewishSpec extends ObjectBehavior
         /* Combined flags */
         $flags = Jewish::CAL_JEWISH_ADD_ALAFIM_GERESH | Jewish::CAL_JEWISH_ADD_GERESHAYIM;
         $this->jdtojewish(2460204, true, $flags)
-            ->shouldReturn("\xE0' \xFA\xF9\xF8\xE9 \xE4'\xFA\xF9\xF4\"\xE3");
+            ->shouldReturn("\xE0' \xFA\xF9\xF8\xE9 \xE4'\xFA\xF9\xF4\"\xE3")
+        ;
     }
 }
