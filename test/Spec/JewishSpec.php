@@ -9,12 +9,12 @@ use Roukmoute\Polyfill\Calendar\Jewish;
 
 class JewishSpec extends ObjectBehavior
 {
-    public function it_is_initializable()
+    public function it_is_initializable(): void
     {
         $this->shouldHaveType(Jewish::class);
     }
 
-    public function it_calculates_julian_day_count_from_jewish_date()
+    public function it_calculates_julian_day_count_from_jewish_date(): void
     {
         $this->jewishtojd(-1, -1, -1)->shouldReturn(0);
         $this->jewishtojd(0, 0, 0)->shouldReturn(0);

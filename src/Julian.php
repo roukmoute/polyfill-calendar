@@ -42,9 +42,9 @@ final class Julian implements SDNConversions
         $year = 100 * $year + $julian;
 
         if ($month < 10) {
-            $month = $month + 3;
+            $month += 3;
         } else {
-            $month = $month - 9;
+            $month -= 9;
             ++$year;
         }
 
@@ -52,7 +52,7 @@ final class Julian implements SDNConversions
             --$year;
         }
 
-        return "${month}/${day}/${year}";
+        return "{$month}/{$day}/{$year}";
     }
 
     /**
@@ -114,16 +114,16 @@ final class Julian implements SDNConversions
         }
         /* Make $year always a positive number. */
         if ($year < 0) {
-            $year = $year + 4801;
+            $year += 4801;
         } else {
-            $year = $year + 4800;
+            $year += 4800;
         }
 
         /* Adjust the start of the $year. */
         if ($month > 2) {
-            $month = $month - 3;
+            $month -= 3;
         } else {
-            $month = $month + 9;
+            $month += 9;
             --$year;
         }
 

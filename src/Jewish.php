@@ -73,7 +73,7 @@ final class Jewish implements SDNConversions
                 /* Find the end of the year. */
                 $moladHalakim += self::HALAKIM_PER_LUNAR_CYCLE * self::getMonthsInYear($metonicYear);
                 $moladDay += (int) ($moladHalakim / self::HALAKIM_PER_DAY);
-                $moladHalakim = $moladHalakim % self::HALAKIM_PER_DAY;
+                $moladHalakim %= self::HALAKIM_PER_DAY;
                 $tishri1After = self::tishri1(($metonicYear + 1) % 19, $moladDay, $moladHalakim);
 
                 $yearLength = $tishri1After - $tishri1;
@@ -250,11 +250,11 @@ final class Jewish implements SDNConversions
 
     private static function findStartOfYear(
         int $year,
-        int &$metonicCycle = null,
-        int &$metonicYear = null,
-        int &$moladDay = null,
-        int &$moladHalakim = null,
-        int &$tishri1 = null
+        ?int &$metonicCycle = null,
+        ?int &$metonicYear = null,
+        ?int &$moladDay = null,
+        ?int &$moladHalakim = null,
+        ?int &$tishri1 = null
     ): void {
         $metonicCycle = (int) (($year - 1) / 19);
         $metonicYear = ($year - 1) % 19;
@@ -262,7 +262,7 @@ final class Jewish implements SDNConversions
 
         $moladHalakim += self::HALAKIM_PER_LUNAR_CYCLE * self::$yearOffset[$metonicYear];
         $moladDay += (int) ($moladHalakim / self::HALAKIM_PER_DAY);
-        $moladHalakim = $moladHalakim % self::HALAKIM_PER_DAY;
+        $moladHalakim %= self::HALAKIM_PER_DAY;
 
         $tishri1 = self::tishri1($metonicYear, $moladDay, $moladHalakim);
     }
@@ -305,8 +305,11 @@ final class Jewish implements SDNConversions
         return $tishri1;
     }
 
-    private static function moladOfMetonicCycle(int $metonicCycle, &$moladDay = null, int &$moladHalakim = null): void
-    {
+    private static function moladOfMetonicCycle(
+        int $metonicCycle,
+        ?int &$moladDay = null,
+        ?int &$moladHalakim = null
+    ): void {
         /* Start with the time of the first molad after creation. */
         $r1 = self::NEW_MOON_OF_CREATION;
 

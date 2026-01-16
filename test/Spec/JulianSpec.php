@@ -9,12 +9,12 @@ use Roukmoute\Polyfill\Calendar\Julian;
 
 class JulianSpec extends ObjectBehavior
 {
-    public function it_is_initializable()
+    public function it_is_initializable(): void
     {
         $this->shouldHaveType(Julian::class);
     }
 
-    public function it_calculates_gregorian_date_from_julian_day_count()
+    public function it_calculates_gregorian_date_from_julian_day_count(): void
     {
         $this->jdtogregorian(2458489)->shouldReturn('1/5/2019');
         $this->jdtogregorian(2458465)->shouldReturn('12/12/2018');
@@ -30,7 +30,7 @@ class JulianSpec extends ObjectBehavior
         $this->jdtogregorian(9536838867)->shouldReturn('0/0/0');
     }
 
-    public function it_calculates_julian_day_count_from_julian_calendar_date()
+    public function it_calculates_julian_day_count_from_julian_calendar_date(): void
     {
         $this->juliantojd(0, 0, 0)->shouldReturn(0);
         $this->juliantojd(1, 1, 1582)->shouldReturn(2298884);

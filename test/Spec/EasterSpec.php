@@ -10,52 +10,52 @@ use Roukmoute\Polyfill\Calendar\ValueError;
 
 class EasterSpec extends ObjectBehavior
 {
-    public function it_is_initializable()
+    public function it_is_initializable(): void
     {
         $this->shouldHaveType(Easter::class);
     }
 
-    public function it_calculates_easter_date_for_year_2000()
+    public function it_calculates_easter_date_for_year_2000(): void
     {
         $this->easter_date(2000)->shouldReturn(956448000);
     }
 
-    public function it_calculates_easter_date_for_year_2001()
+    public function it_calculates_easter_date_for_year_2001(): void
     {
         $this->easter_date(2001)->shouldReturn(987292800);
     }
 
-    public function it_calculates_easter_date_for_year_2002()
+    public function it_calculates_easter_date_for_year_2002(): void
     {
         $this->easter_date(2002)->shouldReturn(1017532800);
     }
 
-    public function it_throws_an_exception_when_year_is_before_1970()
+    public function it_throws_an_exception_when_year_is_before_1970(): void
     {
         $this->shouldThrow(ValueError::class)->during('easter_date', [1969]);
     }
 
-    public function it_throws_an_exception_when_year_is_after_2037()
+    public function it_throws_an_exception_when_year_is_after_2037(): void
     {
         $this->shouldThrow(ValueError::class)->during('easter_date', [2038]);
     }
 
-    public function it_calculates_easter_days_for_year_1999()
+    public function it_calculates_easter_days_for_year_1999(): void
     {
         $this->easter_days(1999)->shouldReturn(14);
     }
 
-    public function it_calculates_easter_days_for_year_1492()
+    public function it_calculates_easter_days_for_year_1492(): void
     {
         $this->easter_days(1492)->shouldReturn(32);
     }
 
-    public function it_calculates_easter_days_for_year_1913()
+    public function it_calculates_easter_days_for_year_1913(): void
     {
         $this->easter_days(1913)->shouldReturn(2);
     }
 
-    public function it_calculates_easter_days_for_year_2025()
+    public function it_calculates_easter_days_for_year_2025(): void
     {
         $this->easter_days(2025)->shouldReturn(30);
     }

@@ -4,17 +4,17 @@
   "type": "library",
   "keywords": ["polyfill", "compatibility", "portable", "calendar"],
   "require": {
-    "php": "^7.1 || ^8.0"
+    "php": "^8.0"
   },
   "require-dev": {
-    "friendsofphp/php-cs-fixer": "^2.16",
+    "friendsofphp/php-cs-fixer": "^3.0",
     "pedrotroller/php-cs-custom-fixer": "^2.19",
-    "phpspec/phpspec": "^5.1 || ^6.1 || ^7.2",
-    "phpstan/phpstan": "^0.12.8",
-    "phpstan/phpstan-strict-rules": "^0.12.2",
+    "phpspec/phpspec": "^7.2",
+    "phpstan/phpstan": "^1.0",
+    "phpstan/phpstan-strict-rules": "^1.0",
     "pyrech/composer-changelogs": "^1.7",
     "roave/security-advisories": "dev-master",
-    "vimeo/psalm": "^4.26"
+    "vimeo/psalm": "^5.0"
   },
   "license": "MIT",
   "authors": [
@@ -48,7 +48,7 @@
   },
   "extra": {
     "branch-alias": {
-      "dev-master": "1.0-dev"
+      "dev-master": "2.0-dev"
     }
   }
 }
