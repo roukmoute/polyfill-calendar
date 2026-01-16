@@ -17,7 +17,17 @@ class Gregor implements SDNConversions
     private const DAYS_PER_400_YEARS = 146097;
 
     /**
-     * Convert a Gregorian republican calendar date to a SDN.
+     * Converts a Gregorian date to Julian Day Count.
+     *
+     * @see https://www.php.net/manual/en/function.gregoriantojd.php
+     */
+    public static function gregoriantojd(int $month, int $day, int $year): int
+    {
+        return self::toSDN($year, $month, $day);
+    }
+
+    /**
+     * Convert a Gregorian calendar date to a SDN.
      * {@inheritDoc}
      */
     public static function toSDN(int $year, int $month, int $day): int
