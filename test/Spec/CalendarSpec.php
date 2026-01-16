@@ -67,7 +67,7 @@ class CalendarSpec extends ObjectBehavior
     /* bug54254.phpt - Jewish calendar months */
     public function it_calculates_days_in_jewish_calendar_months(): void
     {
-        /* Year 5771 - non-leap year (month 6 has 0 days) */
+        /* Year 5771 - non-leap year */
         $this->cal_days_in_month(Calendar::CAL_JEWISH, 1, 5771)->shouldReturn(30);
         $this->cal_days_in_month(Calendar::CAL_JEWISH, 2, 5771)->shouldReturn(30);
         $this->cal_days_in_month(Calendar::CAL_JEWISH, 3, 5771)->shouldReturn(30);
@@ -88,7 +88,7 @@ class CalendarSpec extends ObjectBehavior
         $this->cal_days_in_month(Calendar::CAL_JEWISH, 3, 5772)->shouldReturn(30);
         $this->cal_days_in_month(Calendar::CAL_JEWISH, 4, 5772)->shouldReturn(29);
         $this->cal_days_in_month(Calendar::CAL_JEWISH, 5, 5772)->shouldReturn(30);
-        $this->cal_days_in_month(Calendar::CAL_JEWISH, 6, 5772)->shouldReturn(0); /* Adar I - not used in non-leap */
+        $this->cal_days_in_month(Calendar::CAL_JEWISH, 6, 5772)->shouldReturn(0);
         $this->cal_days_in_month(Calendar::CAL_JEWISH, 7, 5772)->shouldReturn(29);
         $this->cal_days_in_month(Calendar::CAL_JEWISH, 8, 5772)->shouldReturn(30);
         $this->cal_days_in_month(Calendar::CAL_JEWISH, 9, 5772)->shouldReturn(29);
