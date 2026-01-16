@@ -29,13 +29,24 @@ class JewishSpec extends ObjectBehavior
         $this->jdtojewish(0)->shouldReturn('0/0/0');
         $this->jdtojewish(347997)->shouldReturn('0/0/0');
 
-        /* Valid dates */
+        /* Valid dates from PHP jdtojewish.phpt */
         $this->jdtojewish(347998)->shouldReturn('1/1/1');
+        $this->jdtojewish(2452576)->shouldReturn('2/22/5763'); /* Oct 28, 2002 */
+        $this->jdtojewish(2452556)->shouldReturn('2/2/5763');  /* Oct 8, 2002 */
+        $this->jdtojewish(2452584)->shouldReturn('2/30/5763'); /* Nov 5, 2002 */
+        $this->jdtojewish(2454170)->shouldReturn('7/20/5767'); /* Mar 10, 2007 */
+        $this->jdtojewish(2453339)->shouldReturn('3/16/5765'); /* Nov 29, 2004 */
+        $this->jdtojewish(5372755)->shouldReturn('3/8/13758'); /* Jan 1, 9998 */
         $this->jdtojewish(2458465)->shouldReturn('4/4/5779');
         $this->jdtojewish(2458850)->shouldReturn('4/4/5780');
+    }
 
-        /* Today's date: January 16, 2026 = JD 2461405 = 27 Tevet 5786 */
-        $this->jdtojewish(2461405)->shouldReturn('4/27/5786');
+    public function it_handles_overflow_correctly(): void
+    {
+        /* From PHP jdtojewish_overflow.phpt - max valid JD is 324542846 */
+        $this->jdtojewish(324542846)->shouldReturn('12/13/887605');
+        $this->jdtojewish(324542847)->shouldReturn('0/0/0');
+        $this->jdtojewish(324542850)->shouldReturn('0/0/0');
     }
 
     public function it_converts_julian_day_to_jewish_date_in_hebrew(): void
