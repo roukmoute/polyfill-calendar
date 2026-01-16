@@ -152,7 +152,7 @@ final class Jewish implements SDNConversions
         $inputDay = $sdn - self::JEWISH_SDN_OFFSET;
 
         self::findTishriMolad($inputDay, $metonicCycle, $metonicYear, $moladDay, $moladHalakim);
-        $tishri1 = self::tishri1($metonicYear, $moladDay, $moladHalakim);
+        $tishri1 = self::tishri1((int) $metonicYear, (int) $moladDay, (int) $moladHalakim);
 
         if ($inputDay >= $tishri1) {
             /* This day is on or after the start of the year. */
@@ -231,7 +231,7 @@ final class Jewish implements SDNConversions
             /* We need the length of the year to figure out the month and day. */
             $tishri1After = $tishri1;
             self::findTishriMolad($moladDay - 365, $metonicCycle, $metonicYear, $moladDay, $moladHalakim);
-            $tishri1 = self::tishri1($metonicYear, $moladDay, $moladHalakim);
+            $tishri1 = self::tishri1((int) $metonicYear, (int) $moladDay, (int) $moladHalakim);
         }
 
         $yearLength = $tishri1After - $tishri1;
