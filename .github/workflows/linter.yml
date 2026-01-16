@@ -5,30 +5,50 @@ on:
   pull_request:
 
 jobs:
-  tests:
-    name: Lint code
+  php-cs-fixer:
+    name: PHP CS Fixer
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        php: ['8.3']
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: ${{ matrix.php }}
+          php-version: '8.3'
           tools: composer:v2
       - name: Install project dependencies
-        run: |
-          composer install
-      - name: Run PHP Coding Standards Fixer tool
-        run: |
-          php ./vendor/bin/php-cs-fixer fix --dry-run --config=.php-cs-fixer.dist.php
-      - name: Run phpstan
-        run: |
-          php ./vendor/bin/phpstan analyse src
+        run: composer install
+      - name: Run PHP CS Fixer
+        run: php ./vendor/bin/php-cs-fixer fix --dry-run --config=.php-cs-fixer.dist.php
+
+  phpstan:
+    name: PHPStan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          tools: composer:v2
+      - name: Install project dependencies
+        run: composer install
+      - name: Run PHPStan
+        run: php ./vendor/bin/phpstan analyse src
+
+  psalm:
+    name: Psalm
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          tools: composer:v2
+      - name: Install project dependencies
+        run: composer install
       - name: Run Psalm
-        run: |
-          php ./vendor/bin/psalm
+        run: php ./vendor/bin/psalm
