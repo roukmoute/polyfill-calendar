@@ -1,23 +1,23 @@
 <?php
 
-$finder = \PhpCsFixer\Finder::create()->in('src')->in('test');
+$finder = (new PhpCsFixer\Finder())->in('src')->in('test');
 
-return \PhpCsFixer\Config::create()
+return (new PhpCsFixer\Config())
     ->setRules([
         '@Symfony' => true,
         '@Symfony:risky' => true,
-        '@PHP71Migration' => true,
+        '@PHP80Migration' => true,
+        '@PHP80Migration:risky' => true,
         '@DoctrineAnnotation' => true,
 
         // @Symfony code styles rules blacklisting:
         'method_chaining_indentation' => true,
         'no_singleline_whitespace_before_semicolons' => true,
-        'no_trailing_comma_in_list_call' => false,
         'php_unit_fqcn_annotation' => false,
         'phpdoc_align' => false,
         'phpdoc_annotation_without_dot' => false,
         'phpdoc_indent' => false,
-        'phpdoc_inline_tag' => false,
+        'phpdoc_inline_tag_normalizer' => false,
         'phpdoc_no_access' => false,
         'phpdoc_no_alias_tag' => false,
         'phpdoc_no_empty_return' => false,
@@ -32,11 +32,10 @@ return \PhpCsFixer\Config::create()
         'phpdoc_trim' => false,
         'phpdoc_types' => false,
         'phpdoc_var_without_name' => false,
-        'silenced_deprecation_error' => false,
         'standardize_not_equals' => false,
 
         // @Symfony customised rules
-        'class_attributes_separation' => ['elements' => ['method', 'property']],
+        'class_attributes_separation' => ['elements' => ['method' => 'one', 'property' => 'one']],
         'concat_space' => ['spacing' => 'one'],
         'single_quote' => ['strings_containing_single_quote_chars' => true],
         'visibility_required' => ['elements' => ['property', 'method', 'const']],
@@ -61,7 +60,6 @@ return \PhpCsFixer\Config::create()
         'no_alternative_syntax' => true,
         'no_superfluous_elseif' => true,
         'ordered_imports' => true,
-        'PedroTroller/single_line_comment' => ['action' => 'collapsed'],
         'PedroTroller/forbidden_functions' => [
             'comment' => 'TO BE DELETED',
             'functions' => ['die', 'dump', 'exec', 'var_dump', 'var_export'],

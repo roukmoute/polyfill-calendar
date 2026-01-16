@@ -11,7 +11,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php: ['7.3']
+        php: ['8.3']
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -25,7 +25,7 @@ jobs:
           composer install
       - name: Run PHP Coding Standards Fixer tool
         run: |
-          php ./vendor/bin/php-cs-fixer fix --dry-run --config=.php_cs.dist
+          php ./vendor/bin/php-cs-fixer fix --dry-run --config=.php-cs-fixer.dist.php
       - name: Run phpstan
         run: |
           php ./vendor/bin/phpstan analyse src

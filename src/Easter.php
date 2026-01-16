@@ -16,9 +16,9 @@ final class Easter
     /**
      * Return the timestamp of midnight on Easter of a given year (defaults to current year)
      */
-    public static function easter_date(int $year = null): int
+    public static function easter_date(?int $year = null): int
     {
-        if (!$year) {
+        if ($year === null) {
             $year = (int) date('Y');
         }
 
@@ -38,14 +38,14 @@ final class Easter
     /**
      * Return the number of days after March 21 that Easter falls on for a given year (defaults to current year)
      */
-    public static function easter_days(int $year = null): int
+    public static function easter_days(?int $year = null): int
     {
         return self::calEaster($year, false);
     }
 
-    private static function calEaster(int $year = null, bool $isEasterDate): int
+    private static function calEaster(?int $year, bool $isEasterDate): int
     {
-        if (!$year) {
+        if ($year === null) {
             $year = (int) date('Y');
         }
 
