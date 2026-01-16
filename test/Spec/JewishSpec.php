@@ -49,6 +49,31 @@ class JewishSpec extends ObjectBehavior
         $this->jdtojewish(324542850)->shouldReturn('0/0/0');
     }
 
+    public function it_handles_64bit_values(): void
+    {
+        /* From PHP jdtojewish64.phpt */
+        $this->jdtojewish(38245310)->shouldReturn('2/22/103759');
+        $this->jdtojewish(324542846)->shouldReturn('12/13/887605');
+        $this->jdtojewish(324542847)->shouldReturn('0/0/0');
+        $this->jdtojewish(9223372036854743639)->shouldReturn('0/0/0');
+    }
+
+    public function it_converts_all_hebrew_months_correctly(): void
+    {
+        /* From PHP jdtojewish_hebrew.phpt - test all months for leap and normal years */
+
+        /* Year 5000 is a leap year */
+        $this->jdtojewish(2173846, true)->shouldReturn("\xE0 \xFA\xF9\xF8\xE9 \xE4");       /* Tishri */
+        $this->jdtojewish(2173993, true)->shouldReturn("\xE0 \xE0\xE3\xF8 \xE0' \xE4");    /* Adar I */
+        $this->jdtojewish(2174023, true)->shouldReturn("\xE0 \xE0\xE3\xF8 \xE1' \xE4");    /* Adar II */
+        $this->jdtojewish(2174200, true)->shouldReturn("\xE0 \xE0\xEC\xE5\xEC \xE4");      /* Elul */
+
+        /* Year 5001 is a normal year */
+        $this->jdtojewish(2174229, true)->shouldReturn("\xE0 \xFA\xF9\xF8\xE9 \xE4\xE0");  /* Tishri */
+        $this->jdtojewish(2174377, true)->shouldReturn("\xE0 \xE0\xE3\xF8 \xE4\xE0");      /* Adar */
+        $this->jdtojewish(2174554, true)->shouldReturn("\xE0 \xE0\xEC\xE5\xEC \xE4\xE0");  /* Elul */
+    }
+
     public function it_converts_julian_day_to_jewish_date_in_hebrew(): void
     {
         /* Hebrew format for Tishri 1, year 5784 (Rosh Hashanah 2023) */
