@@ -28,6 +28,13 @@ if (!function_exists('jdtogregorian')) {
     }
 }
 
+if (!function_exists('jdtojewish')) {
+    function jdtojewish(int $julian_day, bool $hebrew = false, int $flags = 0): string
+    {
+        return Jewish::jdtojewish($julian_day, $hebrew, $flags);
+    }
+}
+
 if (!function_exists('jewishtojd')) {
     function jewishtojd(int $month, int $day, int $year): int
     {
