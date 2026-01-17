@@ -74,12 +74,21 @@ final class Julian implements SDNConversions
      */
     public static function sdnToJulian(int $sdn): array
     {
-        if ($sdn <= 0) {
+        /* Overflow protection: check if sdn would cause overflow in calculations */
+        $maxSdn = (int) ((\PHP_INT_MAX - self::JULIAN_SDN_OFFSET * 4 + 1) / 4);
+        $minSdn = (int) (\PHP_INT_MIN / 4);
+        if ($sdn <= 0 || $sdn > $maxSdn || $sdn < $minSdn) {
             return [0, 0, 0];
         }
 
         $temp = ($sdn + self::JULIAN_SDN_OFFSET) * 4 - 1;
         $year = (int) ($temp / self::DAYS_PER_4_YEARS);
+
+        /* Check for year overflow */
+        if ($year > \PHP_INT_MAX || $year < \PHP_INT_MIN) {
+            return [0, 0, 0];
+        }
+
         $dayOfYear = (int) (($temp % self::DAYS_PER_4_YEARS) / 4) + 1;
 
         $temp = $dayOfYear * 5 - 3;
