@@ -27,6 +27,49 @@ class Gregor implements SDNConversions
     }
 
     /**
+     * Converts a Julian Day Count to a Gregorian date.
+     *
+     * @return array{int, int, int} [year, month, day]
+     */
+    public static function sdnToGregorian(int $sdn): array
+    {
+        if ($sdn <= 0) {
+            return [0, 0, 0];
+        }
+
+        $temp = ($sdn + self::GREGOR_SDN_OFFSET) * 4 - 1;
+
+        /* Calculate the century (year/100). */
+        $century = (int) ($temp / self::DAYS_PER_400_YEARS);
+
+        /* Calculate the year and day of year (1 <= dayOfYear <= 366). */
+        $temp = ((int) (($temp % self::DAYS_PER_400_YEARS) / 4)) * 4 + 3;
+        $year = ($century * 100) + (int) ($temp / self::DAYS_PER_4_YEARS);
+        $dayOfYear = (int) (($temp % self::DAYS_PER_4_YEARS) / 4) + 1;
+
+        /* Calculate the month and day of month. */
+        $temp = $dayOfYear * 5 - 3;
+        $month = (int) ($temp / self::DAYS_PER_5_MONTHS);
+        $day = (int) (($temp % self::DAYS_PER_5_MONTHS) / 5) + 1;
+
+        /* Convert to the normal beginning of the year. */
+        if ($month < 10) {
+            $month += 3;
+        } else {
+            $month -= 9;
+            ++$year;
+        }
+
+        /* Adjust to the B.C./A.D. type numbering. */
+        $year -= 4800;
+        if ($year <= 0) {
+            --$year;
+        }
+
+        return [$year, $month, $day];
+    }
+
+    /**
      * Convert a Gregorian calendar date to a SDN.
      * {@inheritDoc}
      */

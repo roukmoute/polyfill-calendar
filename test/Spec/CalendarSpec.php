@@ -283,4 +283,133 @@ class CalendarSpec extends ObjectBehavior
         $this->jddayofweek(\PHP_INT_MAX, Calendar::CAL_DOW_LONG)->shouldBeString();
         $this->jddayofweek(\PHP_INT_MIN, Calendar::CAL_DOW_LONG)->shouldBeString();
     }
+
+    /**
+     * Test cases from PHP source: ext/calendar/tests/jdmonthname.phpt
+     */
+    public function it_returns_gregorian_short_month_names(): void
+    {
+        /* JD 2440588 = 1970-01-01, mode 0 (CAL_MONTH_GREGORIAN_SHORT) */
+        $this->jdmonthname(2440588, Calendar::CAL_MONTH_GREGORIAN_SHORT)->shouldReturn('Jan');
+        $this->jdmonthname(2440588 + 30, Calendar::CAL_MONTH_GREGORIAN_SHORT)->shouldReturn('Jan');
+        $this->jdmonthname(2440588 + 60, Calendar::CAL_MONTH_GREGORIAN_SHORT)->shouldReturn('Mar');
+        $this->jdmonthname(2440588 + 90, Calendar::CAL_MONTH_GREGORIAN_SHORT)->shouldReturn('Apr');
+        $this->jdmonthname(2440588 + 120, Calendar::CAL_MONTH_GREGORIAN_SHORT)->shouldReturn('May');
+        $this->jdmonthname(2440588 + 150, Calendar::CAL_MONTH_GREGORIAN_SHORT)->shouldReturn('May');
+        $this->jdmonthname(2440588 + 180, Calendar::CAL_MONTH_GREGORIAN_SHORT)->shouldReturn('Jun');
+        $this->jdmonthname(2440588 + 210, Calendar::CAL_MONTH_GREGORIAN_SHORT)->shouldReturn('Jul');
+        $this->jdmonthname(2440588 + 240, Calendar::CAL_MONTH_GREGORIAN_SHORT)->shouldReturn('Aug');
+        $this->jdmonthname(2440588 + 270, Calendar::CAL_MONTH_GREGORIAN_SHORT)->shouldReturn('Sep');
+        $this->jdmonthname(2440588 + 300, Calendar::CAL_MONTH_GREGORIAN_SHORT)->shouldReturn('Oct');
+        $this->jdmonthname(2440588 + 330, Calendar::CAL_MONTH_GREGORIAN_SHORT)->shouldReturn('Nov');
+        $this->jdmonthname(2440588 + 360, Calendar::CAL_MONTH_GREGORIAN_SHORT)->shouldReturn('Dec');
+    }
+
+    public function it_returns_gregorian_long_month_names(): void
+    {
+        /* JD 2440588 = 1970-01-01, mode 1 (CAL_MONTH_GREGORIAN_LONG) */
+        $this->jdmonthname(2440588, Calendar::CAL_MONTH_GREGORIAN_LONG)->shouldReturn('January');
+        $this->jdmonthname(2440588 + 30, Calendar::CAL_MONTH_GREGORIAN_LONG)->shouldReturn('January');
+        $this->jdmonthname(2440588 + 60, Calendar::CAL_MONTH_GREGORIAN_LONG)->shouldReturn('March');
+        $this->jdmonthname(2440588 + 90, Calendar::CAL_MONTH_GREGORIAN_LONG)->shouldReturn('April');
+        $this->jdmonthname(2440588 + 120, Calendar::CAL_MONTH_GREGORIAN_LONG)->shouldReturn('May');
+        $this->jdmonthname(2440588 + 150, Calendar::CAL_MONTH_GREGORIAN_LONG)->shouldReturn('May');
+        $this->jdmonthname(2440588 + 180, Calendar::CAL_MONTH_GREGORIAN_LONG)->shouldReturn('June');
+        $this->jdmonthname(2440588 + 210, Calendar::CAL_MONTH_GREGORIAN_LONG)->shouldReturn('July');
+        $this->jdmonthname(2440588 + 240, Calendar::CAL_MONTH_GREGORIAN_LONG)->shouldReturn('August');
+        $this->jdmonthname(2440588 + 270, Calendar::CAL_MONTH_GREGORIAN_LONG)->shouldReturn('September');
+        $this->jdmonthname(2440588 + 300, Calendar::CAL_MONTH_GREGORIAN_LONG)->shouldReturn('October');
+        $this->jdmonthname(2440588 + 330, Calendar::CAL_MONTH_GREGORIAN_LONG)->shouldReturn('November');
+        $this->jdmonthname(2440588 + 360, Calendar::CAL_MONTH_GREGORIAN_LONG)->shouldReturn('December');
+    }
+
+    public function it_returns_julian_short_month_names(): void
+    {
+        /* JD 2440588 = 1970-01-01, mode 2 (CAL_MONTH_JULIAN_SHORT) */
+        $this->jdmonthname(2440588, Calendar::CAL_MONTH_JULIAN_SHORT)->shouldReturn('Dec');
+        $this->jdmonthname(2440588 + 30, Calendar::CAL_MONTH_JULIAN_SHORT)->shouldReturn('Jan');
+        $this->jdmonthname(2440588 + 60, Calendar::CAL_MONTH_JULIAN_SHORT)->shouldReturn('Feb');
+        $this->jdmonthname(2440588 + 90, Calendar::CAL_MONTH_JULIAN_SHORT)->shouldReturn('Mar');
+        $this->jdmonthname(2440588 + 120, Calendar::CAL_MONTH_JULIAN_SHORT)->shouldReturn('Apr');
+        $this->jdmonthname(2440588 + 150, Calendar::CAL_MONTH_JULIAN_SHORT)->shouldReturn('May');
+        $this->jdmonthname(2440588 + 180, Calendar::CAL_MONTH_JULIAN_SHORT)->shouldReturn('Jun');
+        $this->jdmonthname(2440588 + 210, Calendar::CAL_MONTH_JULIAN_SHORT)->shouldReturn('Jul');
+        $this->jdmonthname(2440588 + 240, Calendar::CAL_MONTH_JULIAN_SHORT)->shouldReturn('Aug');
+        $this->jdmonthname(2440588 + 270, Calendar::CAL_MONTH_JULIAN_SHORT)->shouldReturn('Sep');
+        $this->jdmonthname(2440588 + 300, Calendar::CAL_MONTH_JULIAN_SHORT)->shouldReturn('Oct');
+        $this->jdmonthname(2440588 + 330, Calendar::CAL_MONTH_JULIAN_SHORT)->shouldReturn('Nov');
+        $this->jdmonthname(2440588 + 360, Calendar::CAL_MONTH_JULIAN_SHORT)->shouldReturn('Dec');
+    }
+
+    public function it_returns_julian_long_month_names(): void
+    {
+        /* JD 2440588 = 1970-01-01, mode 3 (CAL_MONTH_JULIAN_LONG) */
+        $this->jdmonthname(2440588, Calendar::CAL_MONTH_JULIAN_LONG)->shouldReturn('December');
+        $this->jdmonthname(2440588 + 30, Calendar::CAL_MONTH_JULIAN_LONG)->shouldReturn('January');
+        $this->jdmonthname(2440588 + 60, Calendar::CAL_MONTH_JULIAN_LONG)->shouldReturn('February');
+        $this->jdmonthname(2440588 + 90, Calendar::CAL_MONTH_JULIAN_LONG)->shouldReturn('March');
+        $this->jdmonthname(2440588 + 120, Calendar::CAL_MONTH_JULIAN_LONG)->shouldReturn('April');
+        $this->jdmonthname(2440588 + 150, Calendar::CAL_MONTH_JULIAN_LONG)->shouldReturn('May');
+        $this->jdmonthname(2440588 + 180, Calendar::CAL_MONTH_JULIAN_LONG)->shouldReturn('June');
+        $this->jdmonthname(2440588 + 210, Calendar::CAL_MONTH_JULIAN_LONG)->shouldReturn('July');
+        $this->jdmonthname(2440588 + 240, Calendar::CAL_MONTH_JULIAN_LONG)->shouldReturn('August');
+        $this->jdmonthname(2440588 + 270, Calendar::CAL_MONTH_JULIAN_LONG)->shouldReturn('September');
+        $this->jdmonthname(2440588 + 300, Calendar::CAL_MONTH_JULIAN_LONG)->shouldReturn('October');
+        $this->jdmonthname(2440588 + 330, Calendar::CAL_MONTH_JULIAN_LONG)->shouldReturn('November');
+        $this->jdmonthname(2440588 + 360, Calendar::CAL_MONTH_JULIAN_LONG)->shouldReturn('December');
+    }
+
+    public function it_returns_jewish_month_names(): void
+    {
+        /* JD 2440588 = 1970-01-01, mode 4 (CAL_MONTH_JEWISH) */
+        $this->jdmonthname(2440588, Calendar::CAL_MONTH_JEWISH)->shouldReturn('Tevet');
+        $this->jdmonthname(2440588 + 30, Calendar::CAL_MONTH_JEWISH)->shouldReturn('Shevat');
+        $this->jdmonthname(2440588 + 60, Calendar::CAL_MONTH_JEWISH)->shouldReturn('Adar I');
+        $this->jdmonthname(2440588 + 90, Calendar::CAL_MONTH_JEWISH)->shouldReturn('Adar II');
+        $this->jdmonthname(2440588 + 120, Calendar::CAL_MONTH_JEWISH)->shouldReturn('Nisan');
+        $this->jdmonthname(2440588 + 150, Calendar::CAL_MONTH_JEWISH)->shouldReturn('Iyyar');
+        $this->jdmonthname(2440588 + 180, Calendar::CAL_MONTH_JEWISH)->shouldReturn('Sivan');
+        $this->jdmonthname(2440588 + 210, Calendar::CAL_MONTH_JEWISH)->shouldReturn('Tammuz');
+        $this->jdmonthname(2440588 + 240, Calendar::CAL_MONTH_JEWISH)->shouldReturn('Av');
+        $this->jdmonthname(2440588 + 270, Calendar::CAL_MONTH_JEWISH)->shouldReturn('Elul');
+        $this->jdmonthname(2440588 + 300, Calendar::CAL_MONTH_JEWISH)->shouldReturn('Tishri');
+        $this->jdmonthname(2440588 + 330, Calendar::CAL_MONTH_JEWISH)->shouldReturn('Heshvan');
+        $this->jdmonthname(2440588 + 360, Calendar::CAL_MONTH_JEWISH)->shouldReturn('Kislev');
+    }
+
+    public function it_returns_french_month_names(): void
+    {
+        /* JD 2440588 is outside French calendar range (1792-1806), should return empty */
+        $this->jdmonthname(2440588, Calendar::CAL_MONTH_FRENCH)->shouldReturn('');
+
+        /* French calendar valid range: JD 2375840-2380952 */
+        $this->jdmonthname(2375840, Calendar::CAL_MONTH_FRENCH)->shouldReturn('Vendemiaire');
+        $this->jdmonthname(2375870, Calendar::CAL_MONTH_FRENCH)->shouldReturn('Brumaire');
+        $this->jdmonthname(2375900, Calendar::CAL_MONTH_FRENCH)->shouldReturn('Frimaire');
+    }
+
+    public function it_returns_jewish_month_names_for_jd_2452162(): void
+    {
+        /* JD 2452162 = 2001-09-09, mode 4 (CAL_MONTH_JEWISH) */
+        $this->jdmonthname(2452162, Calendar::CAL_MONTH_JEWISH)->shouldReturn('Elul');
+        $this->jdmonthname(2452162 + 30, Calendar::CAL_MONTH_JEWISH)->shouldReturn('Tishri');
+        $this->jdmonthname(2452162 + 60, Calendar::CAL_MONTH_JEWISH)->shouldReturn('Heshvan');
+        $this->jdmonthname(2452162 + 90, Calendar::CAL_MONTH_JEWISH)->shouldReturn('Kislev');
+        $this->jdmonthname(2452162 + 120, Calendar::CAL_MONTH_JEWISH)->shouldReturn('Tevet');
+        $this->jdmonthname(2452162 + 150, Calendar::CAL_MONTH_JEWISH)->shouldReturn('Shevat');
+        $this->jdmonthname(2452162 + 180, Calendar::CAL_MONTH_JEWISH)->shouldReturn('Adar');
+        $this->jdmonthname(2452162 + 210, Calendar::CAL_MONTH_JEWISH)->shouldReturn('Nisan');
+        $this->jdmonthname(2452162 + 240, Calendar::CAL_MONTH_JEWISH)->shouldReturn('Iyyar');
+        $this->jdmonthname(2452162 + 270, Calendar::CAL_MONTH_JEWISH)->shouldReturn('Sivan');
+        $this->jdmonthname(2452162 + 300, Calendar::CAL_MONTH_JEWISH)->shouldReturn('Tammuz');
+        $this->jdmonthname(2452162 + 330, Calendar::CAL_MONTH_JEWISH)->shouldReturn('Av');
+        $this->jdmonthname(2452162 + 360, Calendar::CAL_MONTH_JEWISH)->shouldReturn('Elul');
+    }
+
+    public function it_defaults_to_gregorian_short_for_invalid_mode(): void
+    {
+        /* Mode 6 and any invalid mode should default to CAL_MONTH_GREGORIAN_SHORT */
+        $this->jdmonthname(2440588, 6)->shouldReturn('Jan');
+        $this->jdmonthname(2452162, 6)->shouldReturn('Sep');
+    }
 }

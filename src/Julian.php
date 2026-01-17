@@ -62,11 +62,23 @@ final class Julian implements SDNConversions
      */
     public static function jdtojulian(int $julian_day): string
     {
-        if ($julian_day <= 0) {
-            return '0/0/0';
+        [$year, $month, $day] = self::sdnToJulian($julian_day);
+
+        return "{$month}/{$day}/{$year}";
+    }
+
+    /**
+     * Converts a SDN to Julian year, month, day.
+     *
+     * @return array{int, int, int} [year, month, day]
+     */
+    public static function sdnToJulian(int $sdn): array
+    {
+        if ($sdn <= 0) {
+            return [0, 0, 0];
         }
 
-        $temp = ($julian_day + self::JULIAN_SDN_OFFSET) * 4 - 1;
+        $temp = ($sdn + self::JULIAN_SDN_OFFSET) * 4 - 1;
         $year = (int) ($temp / self::DAYS_PER_4_YEARS);
         $dayOfYear = (int) (($temp % self::DAYS_PER_4_YEARS) / 4) + 1;
 
@@ -86,7 +98,7 @@ final class Julian implements SDNConversions
             --$year;
         }
 
-        return "{$month}/{$day}/{$year}";
+        return [$year, $month, $day];
     }
 
     /**
