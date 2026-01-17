@@ -398,7 +398,6 @@ final class Calendar
                 ];
 
             case self::CAL_FRENCH:
-            default:
                 return [
                     'months' => self::getMonthsArray(self::FRENCH_MONTH_NAMES, 13),
                     'abbrevmonths' => self::getMonthsArray(self::FRENCH_MONTH_NAMES, 13),
@@ -407,6 +406,8 @@ final class Calendar
                     'calsymbol' => 'CAL_FRENCH',
                 ];
         }
+
+        throw new \LogicException('Unexpected calendar ID: ' . $calendar);
     }
 
     /**
