@@ -86,6 +86,13 @@ if (!function_exists('frenchtojd')) {
     }
 }
 
+if (!function_exists('jdtofrench')) {
+    function jdtofrench(int $julian_day): string
+    {
+        return French::jdtofrench($julian_day);
+    }
+}
+
 if (!function_exists('jdtounix')) {
     function jdtounix(int $julian_day): int
     {

@@ -26,6 +26,29 @@ class French implements SDNConversions
     }
 
     /**
+     * Converts a Julian Day Count to French Republican Calendar Date.
+     *
+     * @see https://www.php.net/manual/en/function.jdtofrench.php
+     */
+    public static function jdtofrench(int $julian_day): string
+    {
+        /* French Republican calendar valid range: year 1-14 */
+        /* First valid: JD 2375840 (1/1/1), Last valid: JD 2380952 (13/5/14) */
+        if ($julian_day < 2375840 || $julian_day > 2380952) {
+            return '0/0/0';
+        }
+
+        $temp = ($julian_day - self::FRENCH_SDN_OFFSET) * 4 - 1;
+        $year = (int) ($temp / self::DAYS_PER_4_YEARS);
+        $dayOfYear = (int) (($temp % self::DAYS_PER_4_YEARS) / 4);
+
+        $month = (int) ($dayOfYear / self::DAYS_PER_MONTH) + 1;
+        $day = ($dayOfYear % self::DAYS_PER_MONTH) + 1;
+
+        return "{$month}/{$day}/{$year}";
+    }
+
+    /**
      * Convert a French republican calendar date to a SDN.
      * {@inheritDoc}
      */
