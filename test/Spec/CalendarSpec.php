@@ -412,4 +412,46 @@ class CalendarSpec extends ObjectBehavior
         $this->jdmonthname(2440588, 6)->shouldReturn('Jan');
         $this->jdmonthname(2452162, 6)->shouldReturn('Sep');
     }
+
+    /**
+     * Test cases from PHP source: ext/calendar/tests/jdtomonthname.phpt
+     */
+    public function it_returns_month_names_for_various_julian_days(): void
+    {
+        /* JD 2453396 = 2005-01-01 */
+        $this->jdmonthname(2453396, Calendar::CAL_MONTH_GREGORIAN_SHORT)->shouldReturn('Jan');
+        $this->jdmonthname(2453396, Calendar::CAL_MONTH_GREGORIAN_LONG)->shouldReturn('January');
+        $this->jdmonthname(2453396, Calendar::CAL_MONTH_JULIAN_SHORT)->shouldReturn('Jan');
+        $this->jdmonthname(2453396, Calendar::CAL_MONTH_JULIAN_LONG)->shouldReturn('January');
+        $this->jdmonthname(2453396, Calendar::CAL_MONTH_JEWISH)->shouldReturn('Shevat');
+        $this->jdmonthname(2453396, Calendar::CAL_MONTH_FRENCH)->shouldReturn('');
+
+        /* JD 10000000 - far future date */
+        $this->jdmonthname(10000000, Calendar::CAL_MONTH_GREGORIAN_SHORT)->shouldReturn('Dec');
+        $this->jdmonthname(10000000, Calendar::CAL_MONTH_GREGORIAN_LONG)->shouldReturn('December');
+        $this->jdmonthname(10000000, Calendar::CAL_MONTH_JULIAN_SHORT)->shouldReturn('Jul');
+        $this->jdmonthname(10000000, Calendar::CAL_MONTH_JULIAN_LONG)->shouldReturn('July');
+        $this->jdmonthname(10000000, Calendar::CAL_MONTH_JEWISH)->shouldReturn('Tishri');
+        $this->jdmonthname(10000000, Calendar::CAL_MONTH_FRENCH)->shouldReturn('');
+    }
+
+    public function it_returns_empty_string_for_invalid_julian_day(): void
+    {
+        /* JD -1 is invalid, should return empty for all modes */
+        $this->jdmonthname(-1, Calendar::CAL_MONTH_GREGORIAN_SHORT)->shouldReturn('');
+        $this->jdmonthname(-1, Calendar::CAL_MONTH_GREGORIAN_LONG)->shouldReturn('');
+        $this->jdmonthname(-1, Calendar::CAL_MONTH_JULIAN_SHORT)->shouldReturn('');
+        $this->jdmonthname(-1, Calendar::CAL_MONTH_JULIAN_LONG)->shouldReturn('');
+        $this->jdmonthname(-1, Calendar::CAL_MONTH_JEWISH)->shouldReturn('');
+        $this->jdmonthname(-1, Calendar::CAL_MONTH_FRENCH)->shouldReturn('');
+    }
+
+    /**
+     * Test case from PHP source: ext/calendar/tests/bug71894.phpt
+     * JD 347997 is at the boundary of Jewish calendar (year 0)
+     */
+    public function it_returns_empty_string_for_jewish_year_zero(): void
+    {
+        $this->jdmonthname(347997, Calendar::CAL_MONTH_JEWISH)->shouldReturn('');
+    }
 }
