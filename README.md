@@ -1,4 +1,4 @@
-# Calendar Polyfill ![CI](https://github.com/roukmoute/polyfill-calendar/workflows/CI/badge.svg)
+# Calendar Polyfill ![Tests](https://github.com/roukmoute/polyfill-calendar/workflows/Tests/badge.svg)
 
 This project backports features found in the calendar extension.  
 It is intended to be used when calendar extension is not enabled.
