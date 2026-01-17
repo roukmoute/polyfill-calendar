@@ -58,16 +58,16 @@ if (!defined('CAL_JEWISH_ADD_GERESHAYIM')) {
 }
 
 if (!function_exists('easter_date')) {
-    function easter_date(int $year = null): int
+    function easter_date(?int $year = null, int $mode = CAL_EASTER_DEFAULT): int
     {
-        return Easter::easter_date($year);
+        return Easter::easter_date($year, $mode);
     }
 }
 
 if (!function_exists('easter_days')) {
-    function easter_days(int $year = null): int
+    function easter_days(?int $year = null, int $mode = CAL_EASTER_DEFAULT): int
     {
-        return Easter::easter_days($year);
+        return Easter::easter_days($year, $mode);
     }
 }
 

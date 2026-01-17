@@ -6,23 +6,32 @@ namespace Roukmoute\Polyfill\Calendar;
 
 /**
  * Based on code by Simon Kershaw <simon@oremus.org>
+ *
  * @see http://easter.oremus.org/when/bradley.html
+ * @see https://github.com/php/php-src/blob/master/ext/calendar/easter.c
  */
 final class Easter
 {
+    public const CAL_EASTER_DEFAULT = 0;
+    public const CAL_EASTER_ROMAN = 1;
+    public const CAL_EASTER_ALWAYS_GREGORIAN = 2;
+    public const CAL_EASTER_ALWAYS_JULIAN = 3;
+
     private const MARCH = 3;
     private const APRIL = 4;
 
     /**
      * Return the timestamp of midnight on Easter of a given year (defaults to current year)
+     *
+     * @see https://www.php.net/manual/en/function.easter-date.php
      */
-    public static function easter_date(?int $year = null): int
+    public static function easter_date(?int $year = null, int $mode = self::CAL_EASTER_DEFAULT): int
     {
         if ($year === null) {
             $year = (int) date('Y');
         }
 
-        $easter = self::calEaster($year, true);
+        $easter = self::calEaster($year, true, $mode);
 
         if ($easter < 11) {
             $month = self::MARCH;
@@ -37,13 +46,15 @@ final class Easter
 
     /**
      * Return the number of days after March 21 that Easter falls on for a given year (defaults to current year)
+     *
+     * @see https://www.php.net/manual/en/function.easter-days.php
      */
-    public static function easter_days(?int $year = null): int
+    public static function easter_days(?int $year = null, int $mode = self::CAL_EASTER_DEFAULT): int
     {
-        return self::calEaster($year, false);
+        return self::calEaster($year, false, $mode);
     }
 
-    private static function calEaster(?int $year, bool $isEasterDate): int
+    private static function calEaster(?int $year, bool $isEasterDate, int $mode = self::CAL_EASTER_DEFAULT): int
     {
         if ($year === null) {
             $year = (int) date('Y');
@@ -56,7 +67,7 @@ final class Easter
         /* the Golden number */
         $golden = ($year % 19) + 1;
 
-        if (self::isJulianCalendar($year)) {
+        if (self::useJulianCalendar($year, $mode)) {
             /* the "Dominical number" - finding a Sunday */
             $dominicalNumber = ($year + ((int) ($year / 4)) + 5) % 7;
             if ($dominicalNumber < 0) {
@@ -108,10 +119,32 @@ final class Easter
     }
 
     /**
-     * Julian Calendar (for years before 1753)
+     * Determine if Julian calendar should be used based on year and mode.
+     *
+     * @see https://github.com/php/php-src/blob/master/ext/calendar/easter.c
      */
-    private static function isJulianCalendar(int $year): bool
+    private static function useJulianCalendar(int $year, int $mode): bool
     {
+        /*
+         * From PHP source:
+         * if ((year <= 1582 && method != CAL_EASTER_ALWAYS_GREGORIAN) ||
+         *     (year >= 1583 && year <= 1752 && method != CAL_EASTER_ROMAN && method != CAL_EASTER_ALWAYS_GREGORIAN) ||
+         *      method == CAL_EASTER_ALWAYS_JULIAN)
+         */
+        if ($mode === self::CAL_EASTER_ALWAYS_JULIAN) {
+            return true;
+        }
+
+        if ($mode === self::CAL_EASTER_ALWAYS_GREGORIAN) {
+            return false;
+        }
+
+        if ($mode === self::CAL_EASTER_ROMAN) {
+            /* Julian for years <= 1582, Gregorian for years > 1582 */
+            return $year <= 1582;
+        }
+
+        /* CAL_EASTER_DEFAULT: Julian for years <= 1752, Gregorian for years > 1752 */
         return $year <= 1752;
     }
 }
