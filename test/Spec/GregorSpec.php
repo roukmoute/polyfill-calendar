@@ -54,4 +54,17 @@ class GregorSpec extends ObjectBehavior
         $this->gregoriantojd(12, 25, 2019)->shouldReturn(2458843);
         $this->gregoriantojd(7, 4, 1776)->shouldReturn(2369916);
     }
+
+    /**
+     * Test case from PHP source: ext/calendar/tests/gregoriantojd_overflow.phpt
+     * 64-bit only test
+     */
+    public function it_handles_large_year_values_on_64bit_systems(): void
+    {
+        if (PHP_INT_SIZE !== 8) {
+            return;
+        }
+
+        $this->gregoriantojd(5, 5, 6000000)->shouldReturn(2193176185);
+    }
 }
