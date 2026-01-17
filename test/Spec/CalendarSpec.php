@@ -272,4 +272,15 @@ class CalendarSpec extends ObjectBehavior
     {
         $this->jddayofweek(2440588)->shouldReturn(4);
     }
+
+    /**
+     * Test case from PHP source: ext/calendar/tests/gh16258.phpt
+     * Overflow handling for extreme integer values
+     */
+    public function it_handles_integer_overflow_for_jddayofweek(): void
+    {
+        /* Should not crash or error with extreme values */
+        $this->jddayofweek(\PHP_INT_MAX, Calendar::CAL_DOW_LONG)->shouldBeString();
+        $this->jddayofweek(\PHP_INT_MIN, Calendar::CAL_DOW_LONG)->shouldBeString();
+    }
 }
