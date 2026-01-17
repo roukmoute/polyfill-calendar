@@ -8,6 +8,7 @@ Currently, functions available are:
 - [`cal_to_jd`](https://www.php.net/manual/en/function.cal-to-jd.php) — Converts from a supported calendar to Julian Day Count
 - [`easter_date`](https://www.php.net/manual/en/function.easter-date.php) — Get Unix timestamp for midnight on Easter of a given year
 - [`easter_days`](https://www.php.net/manual/en/function.easter-days.php) — Get number of days after March 21 on which Easter falls for a given year
+- [`frenchtojd`](https://www.php.net/manual/en/function.frenchtojd.php) — Converts a date from the French Republican Calendar to a Julian Day Count
 - [`gregoriantojd`](https://www.php.net/manual/en/function.gregoriantojd.php) — Converts a Gregorian date to Julian Day Count
 - [`jdtogregorian`](https://www.php.net/manual/en/function.jdtogregorian.php) — Converts Julian Day Count to Gregorian date
 - [`jdtojewish`](https://www.php.net/manual/en/function.jdtojewish.php) — Converts a Julian Day Count to the Jewish Calendar

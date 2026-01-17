@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use Roukmoute\Polyfill\Calendar\Calendar;
 use Roukmoute\Polyfill\Calendar\Easter;
+use Roukmoute\Polyfill\Calendar\French;
 use Roukmoute\Polyfill\Calendar\Gregor;
 use Roukmoute\Polyfill\Calendar\Jewish;
 use Roukmoute\Polyfill\Calendar\Julian;
@@ -68,5 +69,12 @@ if (!function_exists('gregoriantojd')) {
     function gregoriantojd(int $month, int $day, int $year): int
     {
         return Gregor::gregoriantojd($month, $day, $year);
+    }
+}
+
+if (!function_exists('frenchtojd')) {
+    function frenchtojd(int $month, int $day, int $year): int
+    {
+        return French::frenchtojd($month, $day, $year);
     }
 }

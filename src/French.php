@@ -16,6 +16,16 @@ class French implements SDNConversions
     private const DAYS_PER_MONTH = 30;
 
     /**
+     * Converts a date from the French Republican Calendar to a Julian Day Count.
+     *
+     * @see https://www.php.net/manual/en/function.frenchtojd.php
+     */
+    public static function frenchtojd(int $month, int $day, int $year): int
+    {
+        return self::toSDN($year, $month, $day);
+    }
+
+    /**
      * Convert a French republican calendar date to a SDN.
      * {@inheritDoc}
      */
