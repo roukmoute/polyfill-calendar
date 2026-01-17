@@ -119,4 +119,27 @@ class CalendarSpec extends ObjectBehavior
             ->duringCal_days_in_month(Calendar::CAL_GREGORIAN, \PHP_INT_MAX, 1)
         ;
     }
+
+    /**
+     * Test cases from PHP source: ext/calendar/tests/jdtounix.phpt
+     */
+    public function it_converts_julian_day_to_unix_timestamp(): void
+    {
+        /* JD 2440588 = 1970-01-01 (Unix epoch) */
+        $this->jdtounix(2440588)->shouldReturn(0);
+
+        /* JD 2452162 = 2001-09-09 */
+        $this->jdtounix(2452162)->shouldReturn(999993600);
+
+        /* JD 2453926 = 2006-07-09 */
+        $this->jdtounix(2453926)->shouldReturn(1152403200);
+    }
+
+    public function it_throws_an_exception_for_julian_day_before_unix_epoch(): void
+    {
+        $maxJd = \PHP_INT_SIZE === 8 ? 106751993607888 : 2465443;
+        $this->shouldThrow(new ValueError('jdtounix(): Argument #1 ($julian_day) must be between 2440588 and ' . $maxJd))
+            ->duringJdtounix(2440587)
+        ;
+    }
 }
