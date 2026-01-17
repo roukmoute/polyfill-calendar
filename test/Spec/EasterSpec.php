@@ -69,8 +69,8 @@ class EasterSpec extends ObjectBehavior
         /* Year 2000: Gregorian Easter = April 23 (33 days after March 21) */
         $this->easter_days(2000, Easter::CAL_EASTER_DEFAULT)->shouldReturn(33);
 
-        /* Year 2000: Julian Easter = April 30 (40 days after March 21) */
-        $this->easter_days(2000, Easter::CAL_EASTER_ALWAYS_JULIAN)->shouldReturn(40);
+        /* Year 2000: Julian Easter = April 17 (27 days after March 21) */
+        $this->easter_days(2000, Easter::CAL_EASTER_ALWAYS_JULIAN)->shouldReturn(27);
     }
 
     /**
@@ -112,13 +112,10 @@ class EasterSpec extends ObjectBehavior
      */
     public function it_calculates_easter_date_with_mode(): void
     {
-        /* Year 2000: Gregorian Easter = April 23, 2000 */
-        $gregorianTimestamp = $this->easter_date(2000, Easter::CAL_EASTER_DEFAULT);
+        /* Year 2000: Gregorian Easter = April 23, 2000 (timestamp 956448000) */
+        $this->easter_date(2000, Easter::CAL_EASTER_DEFAULT)->shouldReturn(956448000);
 
-        /* Year 2000: Julian Easter = April 30, 2000 */
-        $julianTimestamp = $this->easter_date(2000, Easter::CAL_EASTER_ALWAYS_JULIAN);
-
-        /* Julian Easter should be 7 days (604800 seconds) later */
-        $julianTimestamp->shouldReturn($gregorianTimestamp->getWrappedObject() + 604800);
+        /* Year 2000: Julian Easter = April 17, 2000 (timestamp 955929600) */
+        $this->easter_date(2000, Easter::CAL_EASTER_ALWAYS_JULIAN)->shouldReturn(955929600);
     }
 }
