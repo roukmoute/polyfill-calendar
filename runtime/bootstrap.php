@@ -9,6 +9,54 @@ use Roukmoute\Polyfill\Calendar\Gregor;
 use Roukmoute\Polyfill\Calendar\Jewish;
 use Roukmoute\Polyfill\Calendar\Julian;
 
+/*
+ * Calendar type constants
+ */
+if (!defined('CAL_GREGORIAN')) {
+    define('CAL_GREGORIAN', 0);
+}
+if (!defined('CAL_JULIAN')) {
+    define('CAL_JULIAN', 1);
+}
+if (!defined('CAL_JEWISH')) {
+    define('CAL_JEWISH', 2);
+}
+if (!defined('CAL_FRENCH')) {
+    define('CAL_FRENCH', 3);
+}
+if (!defined('CAL_NUM_CALS')) {
+    define('CAL_NUM_CALS', 4);
+}
+
+/*
+ * Easter calculation constants
+ */
+if (!defined('CAL_EASTER_DEFAULT')) {
+    define('CAL_EASTER_DEFAULT', 0);
+}
+if (!defined('CAL_EASTER_ROMAN')) {
+    define('CAL_EASTER_ROMAN', 1);
+}
+if (!defined('CAL_EASTER_ALWAYS_GREGORIAN')) {
+    define('CAL_EASTER_ALWAYS_GREGORIAN', 2);
+}
+if (!defined('CAL_EASTER_ALWAYS_JULIAN')) {
+    define('CAL_EASTER_ALWAYS_JULIAN', 3);
+}
+
+/*
+ * Jewish calendar formatting constants
+ */
+if (!defined('CAL_JEWISH_ADD_ALAFIM_GERESH')) {
+    define('CAL_JEWISH_ADD_ALAFIM_GERESH', 2);
+}
+if (!defined('CAL_JEWISH_ADD_ALAFIM')) {
+    define('CAL_JEWISH_ADD_ALAFIM', 4);
+}
+if (!defined('CAL_JEWISH_ADD_GERESHAYIM')) {
+    define('CAL_JEWISH_ADD_GERESHAYIM', 8);
+}
+
 if (!function_exists('easter_date')) {
     function easter_date(int $year = null): int
     {
