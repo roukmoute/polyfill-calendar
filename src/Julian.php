@@ -56,6 +56,40 @@ final class Julian implements SDNConversions
     }
 
     /**
+     * Converts a Julian Day Count to a Julian Calendar Date.
+     *
+     * @see https://www.php.net/manual/en/function.jdtojulian.php
+     */
+    public static function jdtojulian(int $julian_day): string
+    {
+        if ($julian_day <= 0) {
+            return '0/0/0';
+        }
+
+        $temp = ($julian_day + self::JULIAN_SDN_OFFSET) * 4 - 1;
+        $year = (int) ($temp / self::DAYS_PER_4_YEARS);
+        $dayOfYear = (int) (($temp % self::DAYS_PER_4_YEARS) / 4) + 1;
+
+        $temp = $dayOfYear * 5 - 3;
+        $month = (int) ($temp / self::DAYS_PER_5_MONTHS);
+        $day = (int) (($temp % self::DAYS_PER_5_MONTHS) / 5) + 1;
+
+        if ($month < 10) {
+            $month += 3;
+        } else {
+            $month -= 9;
+            ++$year;
+        }
+
+        $year -= 4800;
+        if ($year <= 0) {
+            --$year;
+        }
+
+        return "{$month}/{$day}/{$year}";
+    }
+
+    /**
      * @author Scott E. Lee
      * @see https://github.com/php/php-src/blob/5b01c4863fe9e4bc2702b2bbf66d292d23001a18/ext/calendar/julian.c
      */

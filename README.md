@@ -12,6 +12,7 @@ Currently, functions available are:
 - [`gregoriantojd`](https://www.php.net/manual/en/function.gregoriantojd.php) — Converts a Gregorian date to Julian Day Count
 - [`jdtogregorian`](https://www.php.net/manual/en/function.jdtogregorian.php) — Converts Julian Day Count to Gregorian date
 - [`jdtojewish`](https://www.php.net/manual/en/function.jdtojewish.php) — Converts a Julian Day Count to the Jewish Calendar
+- [`jdtojulian`](https://www.php.net/manual/en/function.jdtojulian.php) — Converts a Julian Day Count to Julian Calendar Date
 - [`jdtounix`](https://www.php.net/manual/en/function.jdtounix.php) — Convert Julian Day to Unix timestamp
 - [`jewishtojd`](https://www.php.net/manual/en/function.jewishtojd.php) — Converts a date in the Jewish Calendar to Julian Day Count
 - [`juliantojd`](https://www.php.net/manual/en/function.juliantojd.php) — Converts a Julian Calendar date to Julian Day Count
