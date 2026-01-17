@@ -583,4 +583,72 @@ class CalendarSpec extends ObjectBehavior
         $result->shouldHaveKeyWithValue('day', 0);
         $result->shouldHaveKeyWithValue('year', 0);
     }
+
+    /**
+     * Test cases from PHP source: ext/calendar/tests/cal_info.phpt
+     */
+    public function it_returns_info_for_all_calendars(): void
+    {
+        $result = $this->cal_info();
+        $result->shouldBeArray();
+        $result->shouldHaveCount(4);
+
+        /* Gregorian calendar (index 0) */
+        $result[0]->shouldHaveKeyWithValue('calname', 'Gregorian');
+        $result[0]->shouldHaveKeyWithValue('calsymbol', 'CAL_GREGORIAN');
+        $result[0]->shouldHaveKeyWithValue('maxdaysinmonth', 31);
+        $result[0]['months']->shouldHaveKeyWithValue(1, 'January');
+        $result[0]['months']->shouldHaveKeyWithValue(12, 'December');
+        $result[0]['abbrevmonths']->shouldHaveKeyWithValue(1, 'Jan');
+        $result[0]['abbrevmonths']->shouldHaveKeyWithValue(12, 'Dec');
+
+        /* Julian calendar (index 1) */
+        $result[1]->shouldHaveKeyWithValue('calname', 'Julian');
+        $result[1]->shouldHaveKeyWithValue('calsymbol', 'CAL_JULIAN');
+        $result[1]->shouldHaveKeyWithValue('maxdaysinmonth', 31);
+        $result[1]['months']->shouldHaveKeyWithValue(1, 'January');
+        $result[1]['months']->shouldHaveKeyWithValue(12, 'December');
+        $result[1]['abbrevmonths']->shouldHaveKeyWithValue(1, 'Jan');
+        $result[1]['abbrevmonths']->shouldHaveKeyWithValue(12, 'Dec');
+
+        /* Jewish calendar (index 2) */
+        $result[2]->shouldHaveKeyWithValue('calname', 'Jewish');
+        $result[2]->shouldHaveKeyWithValue('calsymbol', 'CAL_JEWISH');
+        $result[2]->shouldHaveKeyWithValue('maxdaysinmonth', 30);
+        $result[2]['months']->shouldHaveKeyWithValue(1, 'Tishri');
+        $result[2]['months']->shouldHaveKeyWithValue(6, 'Adar I');
+        $result[2]['months']->shouldHaveKeyWithValue(7, 'Adar II');
+        $result[2]['months']->shouldHaveKeyWithValue(13, 'Elul');
+        $result[2]['abbrevmonths']->shouldHaveKeyWithValue(1, 'Tishri');
+        $result[2]['abbrevmonths']->shouldHaveKeyWithValue(13, 'Elul');
+
+        /* French calendar (index 3) */
+        $result[3]->shouldHaveKeyWithValue('calname', 'French');
+        $result[3]->shouldHaveKeyWithValue('calsymbol', 'CAL_FRENCH');
+        $result[3]->shouldHaveKeyWithValue('maxdaysinmonth', 30);
+        $result[3]['months']->shouldHaveKeyWithValue(1, 'Vendemiaire');
+        $result[3]['months']->shouldHaveKeyWithValue(13, 'Extra');
+        $result[3]['abbrevmonths']->shouldHaveKeyWithValue(1, 'Vendemiaire');
+        $result[3]['abbrevmonths']->shouldHaveKeyWithValue(13, 'Extra');
+    }
+
+    public function it_returns_info_for_specific_calendar(): void
+    {
+        $result = $this->cal_info(Calendar::CAL_JULIAN);
+        $result->shouldBeArray();
+        $result->shouldHaveKeyWithValue('calname', 'Julian');
+        $result->shouldHaveKeyWithValue('calsymbol', 'CAL_JULIAN');
+        $result->shouldHaveKeyWithValue('maxdaysinmonth', 31);
+        $result['months']->shouldHaveKeyWithValue(1, 'January');
+        $result['months']->shouldHaveKeyWithValue(12, 'December');
+        $result['abbrevmonths']->shouldHaveKeyWithValue(1, 'Jan');
+        $result['abbrevmonths']->shouldHaveKeyWithValue(12, 'Dec');
+    }
+
+    public function it_throws_exception_for_invalid_calendar_in_cal_info(): void
+    {
+        $this->shouldThrow(new ValueError('cal_info(): Argument #1 ($calendar) must be a valid calendar ID'))
+            ->duringCal_info(99999)
+        ;
+    }
 }

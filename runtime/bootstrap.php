@@ -79,6 +79,13 @@ if (!function_exists('cal_from_jd')) {
     }
 }
 
+if (!function_exists('cal_info')) {
+    function cal_info(int $calendar = -1): array
+    {
+        return Calendar::cal_info($calendar);
+    }
+}
+
 if (!function_exists('gregoriantojd')) {
     function gregoriantojd(int $month, int $day, int $year): int
     {
