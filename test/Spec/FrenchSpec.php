@@ -60,4 +60,17 @@ class FrenchSpec extends ObjectBehavior
         /* Common dates */
         $this->frenchtojd(1, 1, 14)->shouldReturn(2380588);
     }
+
+    /**
+     * Test cases from PHP source: ext/calendar/tests/jdtofrench.phpt
+     */
+    public function it_calculates_french_republican_date_from_julian_day_count(): void
+    {
+        $this->jdtofrench(0)->shouldReturn('0/0/0');
+        $this->jdtofrench(2375840)->shouldReturn('1/1/1');
+        $this->jdtofrench(2375850)->shouldReturn('1/11/1');
+        $this->jdtofrench(2375940)->shouldReturn('4/11/1');
+        $this->jdtofrench(2376345)->shouldReturn('5/21/2');
+        $this->jdtofrench(2385940)->shouldReturn('0/0/0');
+    }
 }
