@@ -59,4 +59,66 @@ class EasterSpec extends ObjectBehavior
     {
         $this->easter_days(2025)->shouldReturn(30);
     }
+
+    /**
+     * Test easter_days with CAL_EASTER_ALWAYS_JULIAN mode.
+     * For year 2000, Julian calendar gives a different result than Gregorian.
+     */
+    public function it_calculates_easter_days_with_always_julian_mode(): void
+    {
+        /* Year 2000: Gregorian Easter = April 23 (33 days after March 21) */
+        $this->easter_days(2000, Easter::CAL_EASTER_DEFAULT)->shouldReturn(33);
+
+        /* Year 2000: Julian Easter = April 30 (40 days after March 21) */
+        $this->easter_days(2000, Easter::CAL_EASTER_ALWAYS_JULIAN)->shouldReturn(40);
+    }
+
+    /**
+     * Test easter_days with CAL_EASTER_ALWAYS_GREGORIAN mode.
+     * For year 1500, Julian calendar is normally used with DEFAULT mode.
+     */
+    public function it_calculates_easter_days_with_always_gregorian_mode(): void
+    {
+        /* Year 1500: With DEFAULT mode, uses Julian calendar */
+        $julianResult = $this->easter_days(1500, Easter::CAL_EASTER_DEFAULT);
+
+        /* Year 1500: With ALWAYS_GREGORIAN mode, uses Gregorian calendar */
+        $gregorianResult = $this->easter_days(1500, Easter::CAL_EASTER_ALWAYS_GREGORIAN);
+
+        /* The results should be different */
+        $julianResult->shouldNotEqual($gregorianResult->getWrappedObject());
+    }
+
+    /**
+     * Test easter_days with CAL_EASTER_ROMAN mode.
+     * For year 1700 (between 1583 and 1752):
+     * - DEFAULT uses Julian (year <= 1752)
+     * - ROMAN uses Gregorian (year > 1582)
+     */
+    public function it_calculates_easter_days_with_roman_mode(): void
+    {
+        /* Year 1700: With DEFAULT mode, uses Julian calendar */
+        $defaultResult = $this->easter_days(1700, Easter::CAL_EASTER_DEFAULT);
+
+        /* Year 1700: With ROMAN mode, uses Gregorian calendar */
+        $romanResult = $this->easter_days(1700, Easter::CAL_EASTER_ROMAN);
+
+        /* The results should be different */
+        $defaultResult->shouldNotEqual($romanResult->getWrappedObject());
+    }
+
+    /**
+     * Test easter_date with mode parameter.
+     */
+    public function it_calculates_easter_date_with_mode(): void
+    {
+        /* Year 2000: Gregorian Easter = April 23, 2000 */
+        $gregorianTimestamp = $this->easter_date(2000, Easter::CAL_EASTER_DEFAULT);
+
+        /* Year 2000: Julian Easter = April 30, 2000 */
+        $julianTimestamp = $this->easter_date(2000, Easter::CAL_EASTER_ALWAYS_JULIAN);
+
+        /* Julian Easter should be 7 days (604800 seconds) later */
+        $julianTimestamp->shouldReturn($gregorianTimestamp->getWrappedObject() + 604800);
+    }
 }
