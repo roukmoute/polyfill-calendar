@@ -83,12 +83,6 @@ final class Julian implements SDNConversions
 
         $temp = ($sdn + self::JULIAN_SDN_OFFSET) * 4 - 1;
         $year = (int) ($temp / self::DAYS_PER_4_YEARS);
-
-        /* Check for year overflow */
-        if ($year > \PHP_INT_MAX || $year < \PHP_INT_MIN) {
-            return [0, 0, 0];
-        }
-
         $dayOfYear = (int) (($temp % self::DAYS_PER_4_YEARS) / 4) + 1;
 
         $temp = $dayOfYear * 5 - 3;
