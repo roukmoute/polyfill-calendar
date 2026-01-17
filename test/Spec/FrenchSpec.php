@@ -47,9 +47,9 @@ class FrenchSpec extends ObjectBehavior
         $this->frenchtojd(13, 6, 1)->shouldReturn(0); /* 6th day invalid in non-leap year */
 
         /* Leap years (3, 7, 11) have 6 days in month 13 */
-        $this->frenchtojd(13, 6, 3)->shouldReturn(2376936);
-        $this->frenchtojd(13, 6, 7)->shouldReturn(2378398);
-        $this->frenchtojd(13, 6, 11)->shouldReturn(2379860);
+        $this->frenchtojd(13, 6, 3)->shouldReturn(2376935);
+        $this->frenchtojd(13, 6, 7)->shouldReturn(2378396);
+        $this->frenchtojd(13, 6, 11)->shouldReturn(2379857);
     }
 
     public function it_handles_boundary_dates(): void
