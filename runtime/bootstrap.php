@@ -72,6 +72,13 @@ if (!function_exists('cal_days_in_month')) {
     }
 }
 
+if (!function_exists('cal_from_jd')) {
+    function cal_from_jd(int $julian_day, int $calendar): array
+    {
+        return Calendar::cal_from_jd($julian_day, $calendar);
+    }
+}
+
 if (!function_exists('gregoriantojd')) {
     function gregoriantojd(int $month, int $day, int $year): int
     {
