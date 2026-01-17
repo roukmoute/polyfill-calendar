@@ -15,6 +15,7 @@ Currently, functions available are:
 - [`jdtounix`](https://www.php.net/manual/en/function.jdtounix.php) — Convert Julian Day to Unix timestamp
 - [`jewishtojd`](https://www.php.net/manual/en/function.jewishtojd.php) — Converts a date in the Jewish Calendar to Julian Day Count
 - [`juliantojd`](https://www.php.net/manual/en/function.juliantojd.php) — Converts a Julian Calendar date to Julian Day Count
+- [`unixtojd`](https://www.php.net/manual/en/function.unixtojd.php) — Convert Unix timestamp to Julian Day
 
 ## Usage
 

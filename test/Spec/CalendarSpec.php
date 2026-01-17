@@ -200,4 +200,39 @@ class CalendarSpec extends ObjectBehavior
             ->duringJdtounix($maxJd + 1)
         ;
     }
+
+    /**
+     * Test cases from PHP source: ext/calendar/tests/unixtojd.phpt
+     */
+    public function it_converts_unix_timestamp_to_julian_day(): void
+    {
+        /* unixtojd(40000) = 2440588 (still on day 1 of Unix epoch) */
+        $this->unixtojd(40000)->shouldReturn(2440588);
+
+        /* unixtojd(1000000000) = 2452162 (2001-09-09) */
+        $this->unixtojd(1000000000)->shouldReturn(2452162);
+
+        /* unixtojd(1152459009) = 2453926 (2006-07-09) */
+        $this->unixtojd(1152459009)->shouldReturn(2453926);
+    }
+
+    public function it_converts_current_time_when_no_argument_given(): void
+    {
+        /* unixtojd() with no argument should return current JD */
+        $expected = (int) (time() / 86400) + 2440588;
+        $this->unixtojd()->shouldReturn($expected);
+
+        /* unixtojd(null) should also return current JD */
+        $this->unixtojd(null)->shouldReturn($expected);
+    }
+
+    /**
+     * Test case from PHP source: ext/calendar/tests/unixtojd_error1.phpt
+     */
+    public function it_throws_an_exception_for_negative_timestamp(): void
+    {
+        $this->shouldThrow(new ValueError('unixtojd(): Argument #1 ($timestamp) must be greater than or equal to 0'))
+            ->duringUnixtojd(-1)
+        ;
+    }
 }

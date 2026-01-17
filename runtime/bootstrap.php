@@ -85,3 +85,10 @@ if (!function_exists('jdtounix')) {
         return Calendar::jdtounix($julian_day);
     }
 }
+
+if (!function_exists('unixtojd')) {
+    function unixtojd(?int $timestamp = null): int
+    {
+        return Calendar::unixtojd($timestamp);
+    }
+}
