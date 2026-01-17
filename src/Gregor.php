@@ -33,11 +33,18 @@ class Gregor implements SDNConversions
      */
     public static function sdnToGregorian(int $sdn): array
     {
-        if ($sdn <= 0) {
+        /* Overflow protection: check if sdn would cause overflow in calculations */
+        $maxSdn = (int) ((\PHP_INT_MAX - 4 * self::GREGOR_SDN_OFFSET) / 4);
+        if ($sdn <= 0 || $sdn > $maxSdn) {
             return [0, 0, 0];
         }
 
         $temp = ($sdn + self::GREGOR_SDN_OFFSET) * 4 - 1;
+
+        /* Secondary overflow check */
+        if ($temp < 0 || (int) ($temp / self::DAYS_PER_400_YEARS) > \PHP_INT_MAX) {
+            return [0, 0, 0];
+        }
 
         /* Calculate the century (year/100). */
         $century = (int) ($temp / self::DAYS_PER_400_YEARS);
