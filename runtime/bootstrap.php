@@ -126,3 +126,29 @@ if (!function_exists('jddayofweek')) {
         return Calendar::jddayofweek($julian_day, $mode);
     }
 }
+
+if (!defined('CAL_MONTH_GREGORIAN_SHORT')) {
+    define('CAL_MONTH_GREGORIAN_SHORT', 0);
+}
+if (!defined('CAL_MONTH_GREGORIAN_LONG')) {
+    define('CAL_MONTH_GREGORIAN_LONG', 1);
+}
+if (!defined('CAL_MONTH_JULIAN_SHORT')) {
+    define('CAL_MONTH_JULIAN_SHORT', 2);
+}
+if (!defined('CAL_MONTH_JULIAN_LONG')) {
+    define('CAL_MONTH_JULIAN_LONG', 3);
+}
+if (!defined('CAL_MONTH_JEWISH')) {
+    define('CAL_MONTH_JEWISH', 4);
+}
+if (!defined('CAL_MONTH_FRENCH')) {
+    define('CAL_MONTH_FRENCH', 5);
+}
+
+if (!function_exists('jdmonthname')) {
+    function jdmonthname(int $julian_day, int $mode): string
+    {
+        return Calendar::jdmonthname($julian_day, $mode);
+    }
+}

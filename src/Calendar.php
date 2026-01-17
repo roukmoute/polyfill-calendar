@@ -33,12 +33,44 @@ final class Calendar
     public const CAL_DOW_LONG = 1;
     public const CAL_DOW_SHORT = 2;
 
+    public const CAL_MONTH_GREGORIAN_SHORT = 0;
+    public const CAL_MONTH_GREGORIAN_LONG = 1;
+    public const CAL_MONTH_JULIAN_SHORT = 2;
+    public const CAL_MONTH_JULIAN_LONG = 3;
+    public const CAL_MONTH_JEWISH = 4;
+    public const CAL_MONTH_FRENCH = 5;
+
     private const DAY_NAMES_LONG = [
         'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday',
     ];
 
     private const DAY_NAMES_SHORT = [
         'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat',
+    ];
+
+    private const MONTH_NAMES_SHORT = [
+        '', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+        'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
+    ];
+
+    private const MONTH_NAMES_LONG = [
+        '', 'January', 'February', 'March', 'April', 'May', 'June',
+        'July', 'August', 'September', 'October', 'November', 'December',
+    ];
+
+    private const FRENCH_MONTH_NAMES = [
+        '', 'Vendemiaire', 'Brumaire', 'Frimaire', 'Nivose', 'Pluviose', 'Ventose',
+        'Germinal', 'Floreal', 'Prairial', 'Messidor', 'Thermidor', 'Fructidor', 'Extra',
+    ];
+
+    private const JEWISH_MONTH_NAMES = [
+        '', 'Tishri', 'Heshvan', 'Kislev', 'Tevet', 'Shevat', '',
+        'Adar', 'Nisan', 'Iyyar', 'Sivan', 'Tammuz', 'Av', 'Elul',
+    ];
+
+    private const JEWISH_MONTH_NAMES_LEAP = [
+        '', 'Tishri', 'Heshvan', 'Kislev', 'Tevet', 'Shevat', 'Adar I',
+        'Adar II', 'Nisan', 'Iyyar', 'Sivan', 'Tammuz', 'Av', 'Elul',
     ];
 
     public static function cal_to_jd(
@@ -177,6 +209,58 @@ final class Calendar
             self::CAL_DOW_SHORT => self::DAY_NAMES_SHORT[$dow],
             default => $dow,
         };
+    }
+
+    /**
+     * Returns a string containing a month name.
+     *
+     * @see https://www.php.net/manual/en/function.jdmonthname.php
+     */
+    public static function jdmonthname(int $julian_day, int $mode): string
+    {
+        switch ($mode) {
+            case self::CAL_MONTH_GREGORIAN_LONG:
+                [$year, $month, $day] = Gregor::sdnToGregorian($julian_day);
+
+                return self::MONTH_NAMES_LONG[$month] ?? '';
+
+            case self::CAL_MONTH_JULIAN_SHORT:
+                [$year, $month, $day] = Julian::sdnToJulian($julian_day);
+
+                return self::MONTH_NAMES_SHORT[$month] ?? '';
+
+            case self::CAL_MONTH_JULIAN_LONG:
+                [$year, $month, $day] = Julian::sdnToJulian($julian_day);
+
+                return self::MONTH_NAMES_LONG[$month] ?? '';
+
+            case self::CAL_MONTH_JEWISH:
+                [$year, $month, $day] = Jewish::sdnToJewish($julian_day);
+                if ($year <= 0) {
+                    return '';
+                }
+
+                /* A year is a leap year if (year * 7 + 1) % 19 < 7 */
+                $isLeapYear = (($year * 7 + 1) % 19) < 7;
+                $monthNames = $isLeapYear ? self::JEWISH_MONTH_NAMES_LEAP : self::JEWISH_MONTH_NAMES;
+
+                return $monthNames[$month] ?? '';
+
+            case self::CAL_MONTH_FRENCH:
+                $frenchDate = French::jdtofrench($julian_day);
+                if ($frenchDate === '0/0/0') {
+                    return '';
+                }
+                [$month, $day, $year] = explode('/', $frenchDate);
+
+                return self::FRENCH_MONTH_NAMES[(int) $month] ?? '';
+
+            default:
+            case self::CAL_MONTH_GREGORIAN_SHORT:
+                [$year, $month, $day] = Gregor::sdnToGregorian($julian_day);
+
+                return self::MONTH_NAMES_SHORT[$month] ?? '';
+        }
     }
 
     private static function getMaxJulianDay(): int
