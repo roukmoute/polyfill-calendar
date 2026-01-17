@@ -78,3 +78,10 @@ if (!function_exists('frenchtojd')) {
         return French::frenchtojd($month, $day, $year);
     }
 }
+
+if (!function_exists('jdtounix')) {
+    function jdtounix(int $julian_day): int
+    {
+        return Calendar::jdtounix($julian_day);
+    }
+}

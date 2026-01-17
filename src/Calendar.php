@@ -107,4 +107,29 @@ final class Calendar
 
         return $sdnNext - $sdnStart;
     }
+
+    /**
+     * Convert Julian Day to Unix timestamp.
+     *
+     * @see https://www.php.net/manual/en/function.jdtounix.php
+     */
+    public static function jdtounix(int $julian_day): int
+    {
+        /* Unix epoch starts at JD 2440588 */
+        if ($julian_day < 2440588) {
+            throw new ValueError('jdtounix(): Argument #1 ($julian_day) must be between 2440588 and ' . self::getMaxJulianDay());
+        }
+
+        $maxJd = self::getMaxJulianDay();
+        if ($julian_day > $maxJd) {
+            throw new ValueError('jdtounix(): Argument #1 ($julian_day) must be between 2440588 and ' . $maxJd);
+        }
+
+        return ($julian_day - 2440588) * 86400;
+    }
+
+    private static function getMaxJulianDay(): int
+    {
+        return \PHP_INT_SIZE === 8 ? 106751993607888 : 2465443;
+    }
 }
