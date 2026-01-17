@@ -115,14 +115,11 @@ final class Calendar
      */
     public static function jdtounix(int $julian_day): int
     {
-        /* Unix epoch starts at JD 2440588 */
-        if ($julian_day < 2440588) {
-            throw new ValueError('jdtounix(): Argument #1 ($julian_day) must be between 2440588 and ' . self::getMaxJulianDay());
-        }
-
         $maxJd = self::getMaxJulianDay();
-        if ($julian_day > $maxJd) {
-            throw new ValueError('jdtounix(): Argument #1 ($julian_day) must be between 2440588 and ' . $maxJd);
+
+        /* Unix epoch starts at JD 2440588 */
+        if ($julian_day < 2440588 || $julian_day > $maxJd) {
+            throw new ValueError('jdtounix(): jday must be between 2440588 and ' . $maxJd);
         }
 
         return ($julian_day - 2440588) * 86400;
