@@ -106,3 +106,23 @@ if (!function_exists('unixtojd')) {
         return Calendar::unixtojd($timestamp);
     }
 }
+
+if (!defined('CAL_DOW_DAYNO')) {
+    define('CAL_DOW_DAYNO', 0);
+}
+if (!defined('CAL_DOW_LONG')) {
+    define('CAL_DOW_LONG', 1);
+}
+if (!defined('CAL_DOW_SHORT')) {
+    define('CAL_DOW_SHORT', 2);
+}
+
+if (!function_exists('jddayofweek')) {
+    /**
+     * @return int|string
+     */
+    function jddayofweek(int $julian_day, int $mode = CAL_DOW_DAYNO)
+    {
+        return Calendar::jddayofweek($julian_day, $mode);
+    }
+}

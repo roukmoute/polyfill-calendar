@@ -235,4 +235,41 @@ class CalendarSpec extends ObjectBehavior
             ->duringUnixtojd(-1)
         ;
     }
+
+    /**
+     * Test cases from PHP source: ext/calendar/tests/jddayofweek.phpt
+     */
+    public function it_returns_day_of_week_as_number(): void
+    {
+        /* JD 2440588 = Thursday (1970-01-01) */
+        $this->jddayofweek(2440588, Calendar::CAL_DOW_DAYNO)->shouldReturn(4);
+
+        /* JD 2452162 = Sunday (2001-09-09) */
+        $this->jddayofweek(2452162, Calendar::CAL_DOW_DAYNO)->shouldReturn(0);
+
+        /* JD 2453926 = Sunday (2006-07-09) */
+        $this->jddayofweek(2453926, Calendar::CAL_DOW_DAYNO)->shouldReturn(0);
+
+        /* Negative Julian Day: JD -1000 = Tuesday */
+        $this->jddayofweek(-1000, Calendar::CAL_DOW_DAYNO)->shouldReturn(2);
+    }
+
+    public function it_returns_day_of_week_as_long_name(): void
+    {
+        $this->jddayofweek(2440588, Calendar::CAL_DOW_LONG)->shouldReturn('Thursday');
+        $this->jddayofweek(2452162, Calendar::CAL_DOW_LONG)->shouldReturn('Sunday');
+        $this->jddayofweek(-1000, Calendar::CAL_DOW_LONG)->shouldReturn('Tuesday');
+    }
+
+    public function it_returns_day_of_week_as_short_name(): void
+    {
+        $this->jddayofweek(2440588, Calendar::CAL_DOW_SHORT)->shouldReturn('Thu');
+        $this->jddayofweek(2452162, Calendar::CAL_DOW_SHORT)->shouldReturn('Sun');
+        $this->jddayofweek(-1000, Calendar::CAL_DOW_SHORT)->shouldReturn('Tue');
+    }
+
+    public function it_defaults_to_day_number_mode(): void
+    {
+        $this->jddayofweek(2440588)->shouldReturn(4);
+    }
 }

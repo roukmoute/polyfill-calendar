@@ -29,6 +29,18 @@ final class Calendar
         self::CAL_FRENCH => French::class,
     ];
 
+    public const CAL_DOW_DAYNO = 0;
+    public const CAL_DOW_LONG = 1;
+    public const CAL_DOW_SHORT = 2;
+
+    private const DAY_NAMES_LONG = [
+        'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday',
+    ];
+
+    private const DAY_NAMES_SHORT = [
+        'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat',
+    ];
+
     public static function cal_to_jd(
         int $calendar,
         int $month,
@@ -141,6 +153,30 @@ final class Calendar
         }
 
         return (int) ($timestamp / 86400) + 2440588;
+    }
+
+    /**
+     * Returns the day of the week for a Julian Day.
+     *
+     * @see https://www.php.net/manual/en/function.jddayofweek.php
+     *
+     * @return int|string
+     */
+    public static function jddayofweek(int $julian_day, int $mode = self::CAL_DOW_DAYNO)
+    {
+        /* Calculate day of week: 0 = Sunday, 6 = Saturday */
+        $dow = ($julian_day + 1) % 7;
+
+        /* Handle negative Julian days */
+        if ($dow < 0) {
+            $dow += 7;
+        }
+
+        return match ($mode) {
+            self::CAL_DOW_LONG => self::DAY_NAMES_LONG[$dow],
+            self::CAL_DOW_SHORT => self::DAY_NAMES_SHORT[$dow],
+            default => $dow,
+        };
     }
 
     private static function getMaxJulianDay(): int

@@ -10,6 +10,7 @@ Currently, functions available are:
 - [`easter_days`](https://www.php.net/manual/en/function.easter-days.php) — Get number of days after March 21 on which Easter falls for a given year
 - [`frenchtojd`](https://www.php.net/manual/en/function.frenchtojd.php) — Converts a date from the French Republican Calendar to a Julian Day Count
 - [`gregoriantojd`](https://www.php.net/manual/en/function.gregoriantojd.php) — Converts a Gregorian date to Julian Day Count
+- [`jddayofweek`](https://www.php.net/manual/en/function.jddayofweek.php) — Returns the day of the week for a Julian Day
 - [`jdtofrench`](https://www.php.net/manual/en/function.jdtofrench.php) — Converts a Julian Day Count to French Republican Calendar Date
 - [`jdtogregorian`](https://www.php.net/manual/en/function.jdtogregorian.php) — Converts Julian Day Count to Gregorian date
 - [`jdtojewish`](https://www.php.net/manual/en/function.jdtojewish.php) — Converts a Julian Day Count to the Jewish Calendar
