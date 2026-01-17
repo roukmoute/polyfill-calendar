@@ -319,8 +319,11 @@ final class Calendar
         }
 
         /* Calculate day of week using existing method */
+        /** @var int $dow */
         $dow = self::jddayofweek($julian_day, self::CAL_DOW_DAYNO);
+        /** @var string $abbrevDayName */
         $abbrevDayName = self::jddayofweek($julian_day, self::CAL_DOW_SHORT);
+        /** @var string $dayName */
         $dayName = self::jddayofweek($julian_day, self::CAL_DOW_LONG);
 
         return [
