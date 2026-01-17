@@ -61,7 +61,7 @@ class GregorSpec extends ObjectBehavior
      */
     public function it_handles_large_year_values_on_64bit_systems(): void
     {
-        if (PHP_INT_SIZE !== 8) {
+        if (\PHP_INT_SIZE !== 8) {
             return;
         }
 
