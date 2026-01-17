@@ -125,6 +125,24 @@ final class Calendar
         return ($julian_day - 2440588) * 86400;
     }
 
+    /**
+     * Convert Unix timestamp to Julian Day.
+     *
+     * @see https://www.php.net/manual/en/function.unixtojd.php
+     */
+    public static function unixtojd(?int $timestamp = null): int
+    {
+        if ($timestamp === null) {
+            $timestamp = time();
+        }
+
+        if ($timestamp < 0) {
+            throw new ValueError('unixtojd(): Argument #1 ($timestamp) must be greater than or equal to 0');
+        }
+
+        return (int) ($timestamp / 86400) + 2440588;
+    }
+
     private static function getMaxJulianDay(): int
     {
         return \PHP_INT_SIZE === 8 ? 106751993607888 : 2465443;
