@@ -339,6 +339,91 @@ final class Calendar
         ];
     }
 
+    /**
+     * Returns information about a particular calendar.
+     *
+     * @see https://www.php.net/manual/en/function.cal-info.php
+     *
+     * @return array<int, array{months: array<int, string>, abbrevmonths: array<int, string>, maxdaysinmonth: int, calname: string, calsymbol: string}>|array{months: array<int, string>, abbrevmonths: array<int, string>, maxdaysinmonth: int, calname: string, calsymbol: string}
+     */
+    public static function cal_info(int $calendar = -1): array
+    {
+        if ($calendar === -1) {
+            return [
+                self::CAL_GREGORIAN => self::getCalendarInfo(self::CAL_GREGORIAN),
+                self::CAL_JULIAN => self::getCalendarInfo(self::CAL_JULIAN),
+                self::CAL_JEWISH => self::getCalendarInfo(self::CAL_JEWISH),
+                self::CAL_FRENCH => self::getCalendarInfo(self::CAL_FRENCH),
+            ];
+        }
+
+        if ($calendar < 0 || $calendar >= self::CAL_NUM_CALS) {
+            throw new ValueError('cal_info(): Argument #1 ($calendar) must be a valid calendar ID');
+        }
+
+        return self::getCalendarInfo($calendar);
+    }
+
+    /**
+     * @return array{months: array<int, string>, abbrevmonths: array<int, string>, maxdaysinmonth: int, calname: string, calsymbol: string}
+     */
+    private static function getCalendarInfo(int $calendar): array
+    {
+        switch ($calendar) {
+            case self::CAL_GREGORIAN:
+                return [
+                    'months' => self::getMonthsArray(self::MONTH_NAMES_LONG, 12),
+                    'abbrevmonths' => self::getMonthsArray(self::MONTH_NAMES_SHORT, 12),
+                    'maxdaysinmonth' => 31,
+                    'calname' => 'Gregorian',
+                    'calsymbol' => 'CAL_GREGORIAN',
+                ];
+
+            case self::CAL_JULIAN:
+                return [
+                    'months' => self::getMonthsArray(self::MONTH_NAMES_LONG, 12),
+                    'abbrevmonths' => self::getMonthsArray(self::MONTH_NAMES_SHORT, 12),
+                    'maxdaysinmonth' => 31,
+                    'calname' => 'Julian',
+                    'calsymbol' => 'CAL_JULIAN',
+                ];
+
+            case self::CAL_JEWISH:
+                return [
+                    'months' => self::getMonthsArray(self::JEWISH_MONTH_NAMES_LEAP, 13),
+                    'abbrevmonths' => self::getMonthsArray(self::JEWISH_MONTH_NAMES_LEAP, 13),
+                    'maxdaysinmonth' => 30,
+                    'calname' => 'Jewish',
+                    'calsymbol' => 'CAL_JEWISH',
+                ];
+
+            case self::CAL_FRENCH:
+            default:
+                return [
+                    'months' => self::getMonthsArray(self::FRENCH_MONTH_NAMES, 13),
+                    'abbrevmonths' => self::getMonthsArray(self::FRENCH_MONTH_NAMES, 13),
+                    'maxdaysinmonth' => 30,
+                    'calname' => 'French',
+                    'calsymbol' => 'CAL_FRENCH',
+                ];
+        }
+    }
+
+    /**
+     * @param array<int, string> $names
+     *
+     * @return array<int, string>
+     */
+    private static function getMonthsArray(array $names, int $count): array
+    {
+        $months = [];
+        for ($i = 1; $i <= $count; ++$i) {
+            $months[$i] = $names[$i];
+        }
+
+        return $months;
+    }
+
     private static function getMaxJulianDay(): int
     {
         return \PHP_INT_SIZE === 8 ? 106751993607888 : 2465443;
