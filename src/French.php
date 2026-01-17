@@ -32,20 +32,32 @@ class French implements SDNConversions
      */
     public static function jdtofrench(int $julian_day): string
     {
+        [$year, $month, $day] = self::sdnToFrench($julian_day);
+
+        return "{$month}/{$day}/{$year}";
+    }
+
+    /**
+     * Converts a SDN to French Republican year, month, day.
+     *
+     * @return array{int, int, int} [year, month, day]
+     */
+    public static function sdnToFrench(int $sdn): array
+    {
         /* French Republican calendar valid range: year 1-14 */
         /* First valid: JD 2375840 (1/1/1), Last valid: JD 2380952 (13/5/14) */
-        if ($julian_day < 2375840 || $julian_day > 2380952) {
-            return '0/0/0';
+        if ($sdn < 2375840 || $sdn > 2380952) {
+            return [0, 0, 0];
         }
 
-        $temp = ($julian_day - self::FRENCH_SDN_OFFSET) * 4 - 1;
+        $temp = ($sdn - self::FRENCH_SDN_OFFSET) * 4 - 1;
         $year = (int) ($temp / self::DAYS_PER_4_YEARS);
         $dayOfYear = (int) (($temp % self::DAYS_PER_4_YEARS) / 4);
 
         $month = (int) ($dayOfYear / self::DAYS_PER_MONTH) + 1;
         $day = ($dayOfYear % self::DAYS_PER_MONTH) + 1;
 
-        return "{$month}/{$day}/{$year}";
+        return [$year, $month, $day];
     }
 
     /**

@@ -247,13 +247,12 @@ final class Calendar
                 return $monthNames[$month] ?? '';
 
             case self::CAL_MONTH_FRENCH:
-                $frenchDate = French::jdtofrench($julian_day);
-                if ($frenchDate === '0/0/0') {
+                [$year, $month, $day] = French::sdnToFrench($julian_day);
+                if ($year <= 0) {
                     return '';
                 }
-                [$month, $day, $year] = explode('/', $frenchDate);
 
-                return self::FRENCH_MONTH_NAMES[(int) $month] ?? '';
+                return self::FRENCH_MONTH_NAMES[$month] ?? '';
 
             default:
             case self::CAL_MONTH_GREGORIAN_SHORT:
@@ -313,29 +312,16 @@ final class Calendar
                 break;
 
             case self::CAL_FRENCH:
-            default:
-                $frenchDate = French::jdtofrench($julian_day);
-                if ($frenchDate === '0/0/0') {
-                    $year = $month = $day = 0;
-                    $abbrevMonth = '';
-                    $monthName = '';
-                } else {
-                    [$month, $day, $year] = array_map('intval', explode('/', $frenchDate));
-                    $abbrevMonth = self::FRENCH_MONTH_NAMES[$month] ?? '';
-                    $monthName = self::FRENCH_MONTH_NAMES[$month] ?? '';
-                }
+                [$year, $month, $day] = French::sdnToFrench($julian_day);
+                $abbrevMonth = self::FRENCH_MONTH_NAMES[$month] ?? '';
+                $monthName = self::FRENCH_MONTH_NAMES[$month] ?? '';
                 break;
         }
 
-        /* Calculate day of week */
-        $dow = ($julian_day + 1) % 7;
-        if ($dow < 0) {
-            $dow += 7;
-        }
-
-        /* Get day names */
-        $abbrevDayName = self::DAY_NAMES_SHORT[$dow] ?? '';
-        $dayName = self::DAY_NAMES_LONG[$dow] ?? '';
+        /* Calculate day of week using existing method */
+        $dow = self::jddayofweek($julian_day, self::CAL_DOW_DAYNO);
+        $abbrevDayName = self::jddayofweek($julian_day, self::CAL_DOW_SHORT);
+        $dayName = self::jddayofweek($julian_day, self::CAL_DOW_LONG);
 
         return [
             'date' => "{$month}/{$day}/{$year}",
