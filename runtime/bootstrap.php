@@ -30,6 +30,13 @@ if (!function_exists('jdtogregorian')) {
     }
 }
 
+if (!function_exists('jdtojulian')) {
+    function jdtojulian(int $julian_day): string
+    {
+        return Julian::jdtojulian($julian_day);
+    }
+}
+
 if (!function_exists('jdtojewish')) {
     function jdtojewish(int $julian_day, bool $hebrew = false, int $flags = 0): string
     {

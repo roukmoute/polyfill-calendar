@@ -38,4 +38,17 @@ class JulianSpec extends ObjectBehavior
         $this->juliantojd(1, 1, -4713)->shouldReturn(0);
         $this->juliantojd(12, 25, 2019)->shouldReturn(2458856);
     }
+
+    /**
+     * Test cases from PHP source: ext/calendar/tests/jdtojulian.phpt
+     */
+    public function it_calculates_julian_calendar_date_from_julian_day_count(): void
+    {
+        $this->jdtojulian(0)->shouldReturn('0/0/0');
+        $this->jdtojulian(1)->shouldReturn('1/2/-4713');
+        $this->jdtojulian(2298874)->shouldReturn('12/22/1581');
+        $this->jdtojulian(2299151)->shouldReturn('9/25/1582');
+        $this->jdtojulian(2440588)->shouldReturn('12/19/1969');
+        $this->jdtojulian(2816423)->shouldReturn('12/12/2998');
+    }
 }
