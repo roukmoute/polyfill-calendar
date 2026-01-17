@@ -5,6 +5,7 @@ It is intended to be used when calendar extension is not enabled.
 
 Currently, functions available are:
 - [`cal_days_in_month`](https://www.php.net/manual/en/function.cal-days-in-month.php) — Return the number of days in a month for a given year and calendar
+- [`cal_from_jd`](https://www.php.net/manual/en/function.cal-from-jd.php) — Converts from Julian Day Count to a supported calendar
 - [`cal_to_jd`](https://www.php.net/manual/en/function.cal-to-jd.php) — Converts from a supported calendar to Julian Day Count
 - [`easter_date`](https://www.php.net/manual/en/function.easter-date.php) — Get Unix timestamp for midnight on Easter of a given year
 - [`easter_days`](https://www.php.net/manual/en/function.easter-days.php) — Get number of days after March 21 on which Easter falls for a given year

@@ -454,4 +454,133 @@ class CalendarSpec extends ObjectBehavior
     {
         $this->jdmonthname(347997, Calendar::CAL_MONTH_JEWISH)->shouldReturn('');
     }
+
+    /**
+     * Test cases from PHP source: ext/calendar/tests/cal_from_jd.phpt
+     */
+    public function it_converts_julian_day_to_gregorian_calendar(): void
+    {
+        $result = $this->cal_from_jd(1748326, Calendar::CAL_GREGORIAN);
+        $result->shouldBeArray();
+        $result->shouldHaveKeyWithValue('date', '8/26/74');
+        $result->shouldHaveKeyWithValue('month', 8);
+        $result->shouldHaveKeyWithValue('day', 26);
+        $result->shouldHaveKeyWithValue('year', 74);
+        $result->shouldHaveKeyWithValue('dow', 0);
+        $result->shouldHaveKeyWithValue('abbrevdayname', 'Sun');
+        $result->shouldHaveKeyWithValue('dayname', 'Sunday');
+        $result->shouldHaveKeyWithValue('abbrevmonth', 'Aug');
+        $result->shouldHaveKeyWithValue('monthname', 'August');
+    }
+
+    public function it_converts_julian_day_to_julian_calendar(): void
+    {
+        $result = $this->cal_from_jd(1748324, Calendar::CAL_JULIAN);
+        $result->shouldBeArray();
+        $result->shouldHaveKeyWithValue('date', '8/26/74');
+        $result->shouldHaveKeyWithValue('month', 8);
+        $result->shouldHaveKeyWithValue('day', 26);
+        $result->shouldHaveKeyWithValue('year', 74);
+        $result->shouldHaveKeyWithValue('dow', 5);
+        $result->shouldHaveKeyWithValue('abbrevdayname', 'Fri');
+        $result->shouldHaveKeyWithValue('dayname', 'Friday');
+        $result->shouldHaveKeyWithValue('abbrevmonth', 'Aug');
+        $result->shouldHaveKeyWithValue('monthname', 'August');
+    }
+
+    public function it_converts_julian_day_to_jewish_calendar(): void
+    {
+        $result = $this->cal_from_jd(374867, Calendar::CAL_JEWISH);
+        $result->shouldBeArray();
+        $result->shouldHaveKeyWithValue('date', '8/26/74');
+        $result->shouldHaveKeyWithValue('month', 8);
+        $result->shouldHaveKeyWithValue('day', 26);
+        $result->shouldHaveKeyWithValue('year', 74);
+        $result->shouldHaveKeyWithValue('dow', 4);
+        $result->shouldHaveKeyWithValue('abbrevdayname', 'Thu');
+        $result->shouldHaveKeyWithValue('dayname', 'Thursday');
+        $result->shouldHaveKeyWithValue('abbrevmonth', 'Nisan');
+        $result->shouldHaveKeyWithValue('monthname', 'Nisan');
+    }
+
+    public function it_converts_julian_day_zero_to_french_calendar(): void
+    {
+        $result = $this->cal_from_jd(0, Calendar::CAL_FRENCH);
+        $result->shouldBeArray();
+        $result->shouldHaveKeyWithValue('date', '0/0/0');
+        $result->shouldHaveKeyWithValue('month', 0);
+        $result->shouldHaveKeyWithValue('day', 0);
+        $result->shouldHaveKeyWithValue('year', 0);
+        $result->shouldHaveKeyWithValue('dow', 1);
+        $result->shouldHaveKeyWithValue('abbrevdayname', 'Mon');
+        $result->shouldHaveKeyWithValue('dayname', 'Monday');
+        $result->shouldHaveKeyWithValue('abbrevmonth', '');
+        $result->shouldHaveKeyWithValue('monthname', '');
+    }
+
+    /**
+     * Test case from PHP source: ext/calendar/tests/cal_from_jd_error1.phpt
+     */
+    public function it_throws_exception_for_invalid_calendar_in_cal_from_jd(): void
+    {
+        $this->shouldThrow(new ValueError('cal_from_jd(): Argument #2 ($calendar) must be a valid calendar ID'))
+            ->duringCal_from_jd(1748326, -1)
+        ;
+    }
+
+    /**
+     * Test case from PHP source: ext/calendar/tests/bug71894.phpt
+     * Jewish calendar with year 0 returns null dow
+     */
+    public function it_returns_null_dow_for_jewish_calendar_at_year_zero(): void
+    {
+        $result = $this->cal_from_jd(347997, Calendar::CAL_JEWISH);
+        $result->shouldBeArray();
+        $result->shouldHaveKeyWithValue('date', '0/0/0');
+        $result->shouldHaveKeyWithValue('month', 0);
+        $result->shouldHaveKeyWithValue('day', 0);
+        $result->shouldHaveKeyWithValue('year', 0);
+        $result->shouldHaveKeyWithValue('dow', null);
+        $result->shouldHaveKeyWithValue('abbrevdayname', '');
+        $result->shouldHaveKeyWithValue('dayname', '');
+        $result->shouldHaveKeyWithValue('abbrevmonth', '');
+        $result->shouldHaveKeyWithValue('monthname', '');
+    }
+
+    /**
+     * Test cases from PHP source: ext/calendar/tests/bug53574_2.phpt (64-bit)
+     * Integer overflow in SdnToJulian
+     */
+    public function it_handles_julian_overflow_on_64bit(): void
+    {
+        if (\PHP_INT_SIZE !== 8) {
+            return;
+        }
+
+        $result = $this->cal_from_jd(3315881921229094912, Calendar::CAL_JULIAN);
+        $result->shouldHaveKeyWithValue('date', '0/0/0');
+        $result->shouldHaveKeyWithValue('month', 0);
+        $result->shouldHaveKeyWithValue('day', 0);
+        $result->shouldHaveKeyWithValue('year', 0);
+        $result->shouldHaveKeyWithValue('dow', 3);
+        $result->shouldHaveKeyWithValue('abbrevdayname', 'Wed');
+        $result->shouldHaveKeyWithValue('dayname', 'Wednesday');
+    }
+
+    /**
+     * Test cases from PHP source: ext/calendar/tests/bug55797_2.phpt (64-bit)
+     * Integer overflow in SdnToGregorian
+     */
+    public function it_handles_gregorian_overflow_on_64bit(): void
+    {
+        if (\PHP_INT_SIZE !== 8) {
+            return;
+        }
+
+        $result = $this->cal_from_jd(9223372036854743639, Calendar::CAL_GREGORIAN);
+        $result->shouldHaveKeyWithValue('date', '0/0/0');
+        $result->shouldHaveKeyWithValue('month', 0);
+        $result->shouldHaveKeyWithValue('day', 0);
+        $result->shouldHaveKeyWithValue('year', 0);
+    }
 }

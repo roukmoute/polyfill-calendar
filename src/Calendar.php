@@ -263,6 +263,93 @@ final class Calendar
         }
     }
 
+    /**
+     * Converts from Julian Day Count to a supported calendar.
+     *
+     * @see https://www.php.net/manual/en/function.cal-from-jd.php
+     *
+     * @return array{date: string, month: int, day: int, year: int, dow: int|null, abbrevdayname: string, dayname: string, abbrevmonth: string, monthname: string}
+     */
+    public static function cal_from_jd(int $julian_day, int $calendar): array
+    {
+        if ($calendar < 0 || $calendar >= self::CAL_NUM_CALS) {
+            throw new ValueError('cal_from_jd(): Argument #2 ($calendar) must be a valid calendar ID');
+        }
+
+        /* Get date components based on calendar type */
+        switch ($calendar) {
+            case self::CAL_GREGORIAN:
+                [$year, $month, $day] = Gregor::sdnToGregorian($julian_day);
+                $abbrevMonth = self::MONTH_NAMES_SHORT[$month] ?? '';
+                $monthName = self::MONTH_NAMES_LONG[$month] ?? '';
+                break;
+
+            case self::CAL_JULIAN:
+                [$year, $month, $day] = Julian::sdnToJulian($julian_day);
+                $abbrevMonth = self::MONTH_NAMES_SHORT[$month] ?? '';
+                $monthName = self::MONTH_NAMES_LONG[$month] ?? '';
+                break;
+
+            case self::CAL_JEWISH:
+                [$year, $month, $day] = Jewish::sdnToJewish($julian_day);
+                if ($year <= 0) {
+                    /* Bug #71894: Jewish calendar with year 0 returns null dow */
+                    return [
+                        'date' => '0/0/0',
+                        'month' => 0,
+                        'day' => 0,
+                        'year' => 0,
+                        'dow' => null,
+                        'abbrevdayname' => '',
+                        'dayname' => '',
+                        'abbrevmonth' => '',
+                        'monthname' => '',
+                    ];
+                }
+                $isLeapYear = (($year * 7 + 1) % 19) < 7;
+                $monthNames = $isLeapYear ? self::JEWISH_MONTH_NAMES_LEAP : self::JEWISH_MONTH_NAMES;
+                $abbrevMonth = $monthNames[$month] ?? '';
+                $monthName = $monthNames[$month] ?? '';
+                break;
+
+            case self::CAL_FRENCH:
+            default:
+                $frenchDate = French::jdtofrench($julian_day);
+                if ($frenchDate === '0/0/0') {
+                    $year = $month = $day = 0;
+                    $abbrevMonth = '';
+                    $monthName = '';
+                } else {
+                    [$month, $day, $year] = array_map('intval', explode('/', $frenchDate));
+                    $abbrevMonth = self::FRENCH_MONTH_NAMES[$month] ?? '';
+                    $monthName = self::FRENCH_MONTH_NAMES[$month] ?? '';
+                }
+                break;
+        }
+
+        /* Calculate day of week */
+        $dow = ($julian_day + 1) % 7;
+        if ($dow < 0) {
+            $dow += 7;
+        }
+
+        /* Get day names */
+        $abbrevDayName = self::DAY_NAMES_SHORT[$dow] ?? '';
+        $dayName = self::DAY_NAMES_LONG[$dow] ?? '';
+
+        return [
+            'date' => "{$month}/{$day}/{$year}",
+            'month' => $month,
+            'day' => $day,
+            'year' => $year,
+            'dow' => $dow,
+            'abbrevdayname' => $abbrevDayName,
+            'dayname' => $dayName,
+            'abbrevmonth' => $abbrevMonth,
+            'monthname' => $monthName,
+        ];
+    }
+
     private static function getMaxJulianDay(): int
     {
         return \PHP_INT_SIZE === 8 ? 106751993607888 : 2465443;
