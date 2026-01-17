@@ -135,11 +135,69 @@ class CalendarSpec extends ObjectBehavior
         $this->jdtounix(2453926)->shouldReturn(1152403200);
     }
 
+    /**
+     * Test case from PHP source: ext/calendar/tests/jdtounix_error1.phpt
+     */
     public function it_throws_an_exception_for_julian_day_before_unix_epoch(): void
     {
         $maxJd = \PHP_INT_SIZE === 8 ? 106751993607888 : 2465443;
-        $this->shouldThrow(new ValueError('jdtounix(): Argument #1 ($julian_day) must be between 2440588 and ' . $maxJd))
-            ->duringJdtounix(2440587)
+        $this->shouldThrow(new ValueError('jdtounix(): jday must be between 2440588 and ' . $maxJd))
+            ->duringJdtounix(2440579)
+        ;
+    }
+
+    /**
+     * Test cases from PHP source: ext/calendar/tests/gh16231.phpt
+     */
+    public function it_throws_an_exception_for_julian_day_integer_overflow(): void
+    {
+        $maxJd = \PHP_INT_SIZE === 8 ? 106751993607888 : 2465443;
+        $this->shouldThrow(new ValueError('jdtounix(): jday must be between 2440588 and ' . $maxJd))
+            ->duringJdtounix(\PHP_INT_MIN)
+        ;
+    }
+
+    /**
+     * Test cases from PHP source: ext/calendar/tests/bug80185.phpt (64-bit)
+     * and ext/calendar/tests/bug80185_32bit.phpt (32-bit)
+     */
+    public function it_handles_julian_day_boundary_on_64bit_systems(): void
+    {
+        if (\PHP_INT_SIZE !== 8) {
+            return;
+        }
+
+        /* JD 2465712 = 2038-08-16 */
+        $this->jdtounix(2465712)->shouldReturn(2170713600);
+
+        /* Maximum valid JD on 64-bit */
+        $maxJd = (int) (\PHP_INT_MAX / 86400 + 2440588);
+        $this->jdtounix($maxJd)->shouldReturn(9223372036854720000);
+
+        /* One above maximum should throw */
+        $this->shouldThrow(new ValueError('jdtounix(): jday must be between 2440588 and 106751993607888'))
+            ->duringJdtounix($maxJd + 1)
+        ;
+    }
+
+    public function it_handles_julian_day_boundary_on_32bit_systems(): void
+    {
+        if (\PHP_INT_SIZE !== 4) {
+            return;
+        }
+
+        /* JD 2465712 exceeds 32-bit limit (max is 2465443) */
+        $this->shouldThrow(new ValueError('jdtounix(): jday must be between 2440588 and 2465443'))
+            ->duringJdtounix(2465712)
+        ;
+
+        /* Maximum valid JD on 32-bit */
+        $maxJd = (int) (\PHP_INT_MAX / 86400 + 2440588);
+        $this->jdtounix($maxJd)->shouldReturn(2147472000);
+
+        /* One above maximum should throw */
+        $this->shouldThrow(new ValueError('jdtounix(): jday must be between 2440588 and 2465443'))
+            ->duringJdtounix($maxJd + 1)
         ;
     }
 }
